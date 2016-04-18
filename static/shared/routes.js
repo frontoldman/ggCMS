@@ -12,7 +12,7 @@ import BlogPage from './containers/BlogPage'
 export default (
     <Route path="/" component={App}>
         <Route path="/user" component={UserPage}>
-            <Route path="/addManage" component={UserManage}/>
+            <Route path="/user/addManage" component={UserManage}/>
         </Route>
         <Route path="/blog" component={BlogPage}/>
     </Route>

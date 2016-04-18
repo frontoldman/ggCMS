@@ -5,6 +5,8 @@
 import React, { Component , PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browerHistory } from 'react-router'
+import 'antd/lib/index.css';
+import { Row, Col } from 'antd'
 
 class　App extends Component {
     constructor(props) {
@@ -15,8 +17,10 @@ class　App extends Component {
         const { children } = this.props;
         return (
             <div>
-                <h1>hello</h1>
-                {children}
+                <Row>
+                    <Col span="6">.col-6</Col>
+                    <Col span="18">{children}</Col>
+                </Row>
             </div>
         )
     }

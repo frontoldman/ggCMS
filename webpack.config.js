@@ -26,6 +26,19 @@ module.exports = {
                 loaders: ['babel'],
                 exclude : ['node_modules'],
                 include : __dirname
+            },
+            {
+                test: /\.css$/,
+                loader: "style!css",
+                include : __dirname
+            },
+            {
+                test: /\.png$/,
+                loader: "url-loader?limit=100000"
+            },
+            {
+                test: /\.jpg$/,
+                loader: "file-loader"
             }
         ]
     }
