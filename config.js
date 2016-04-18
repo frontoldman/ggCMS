@@ -3,5 +3,6 @@
  */
 
 var config = {
-    entry : 'static/html'
+    entry: 'static/html',
+    port: 8081
 }
