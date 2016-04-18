@@ -4,7 +4,7 @@
 
 import React , { Component , PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { changeUsername } from '../actions'
+import { changeUsername } from '../../actions'
 
 
 class UserPage extends Component { 
@@ -18,7 +18,7 @@ class UserPage extends Component {
     }
 
     render() {
-        const { userList } = this.props;
+        const { userList, children } = this.props;
         return (
             <div>
                 UserPage
@@ -26,6 +26,8 @@ class UserPage extends Component {
                     return (<p>{item}</p>)
                 })}
                 <button onClick={this.handleChangeNameClick}>点击修改username</button>
+
+                {children}
             </div>
         )
     }
