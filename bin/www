@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+var config = require('../config')
 var app = require('../app')
 
-app.listen(3000,() => console.log('listen on 3000!'));
+app.listen(config.port,() => console.log(`listening on ${config.port}`));

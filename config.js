@@ -3,6 +3,8 @@
  */
 
 var config = {
-    entry: 'static/html',
+    entry: 'static/index.html',
     port: 8081
 }
+
+module.exports = config

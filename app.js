@@ -18,7 +18,12 @@ app.use(webpackHotMiddleware(compiler))
 
 app.use(function *(next){
     if(this.path.indexOf('/api') === -1 ){
-        this.body = fs.createReadStream('./static/index.html');
+        try{
+            this.body = fs.createReadStream(config.entry);
+        }catch(e){
+            console.log(e);
+        }
+
         this.type = 'text/html; charset=utf-8';
     }
 })
