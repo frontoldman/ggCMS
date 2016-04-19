@@ -4,6 +4,8 @@
   "description": "cms",
   "main": "index.js",
   "scripts": {
+    "static-win":"rd /s/q ./dist && webpack -w --progress --colors",
+    "pro":"webpack -w --progress --colors --display-error-details",
     "start": "node bin/www",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

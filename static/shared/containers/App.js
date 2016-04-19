@@ -18,8 +18,8 @@ class　App extends Component {
         return (
             <div>
                 <Row>
-                    <Col span="6">.col-6</Col>
-                    <Col span="18">{children}</Col>
+                    <Col span="3">.col-6</Col>
+                    <Col span="21">{children}</Col>
                 </Row>
             </div>
         )

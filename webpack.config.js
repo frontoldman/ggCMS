@@ -7,7 +7,6 @@ var webpack = require('webpack');
 
 module.exports = {
     entry:[
-        'webpack-hot-middleware/client',
         './static/shared/index.js'
     ],
     output:{
