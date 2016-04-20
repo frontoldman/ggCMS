@@ -7,8 +7,9 @@ import { connect } from 'react-redux'
 import { browerHistory } from 'react-router'
 import 'antd/lib/index.css';
 import { Row, Col } from 'antd'
+import { Navbar, Content} from '../components/layout/'
 
-class　App extends Component {
+class App extends Component {
     constructor(props) {
         super(props);
     }
@@ -18,8 +19,8 @@ class　App extends Component {
         return (
             <div>
                 <Row>
-                    <Col span="3">.col-6</Col>
-                    <Col span="21">{children}</Col>
+                    <Navbar/>
+                    <Content/>
                 </Row>
             </div>
         )
