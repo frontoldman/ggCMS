@@ -17,11 +17,9 @@ class App extends Component {
     render() {
         const { children } = this.props;
         return (
-            <div>
-                <Row>
-                    <Navbar/>
-                    <Content/>
-                </Row>
+            <div className="ant-layout-aside">
+                <Navbar/>
+                <Content/>
             </div>
         )
     }

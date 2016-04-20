@@ -4,5 +4,6 @@
 
 import Navbar from './Navbar'
 import Content from './Content'
+import './layout.css'
 
 export { Navbar, Content }
