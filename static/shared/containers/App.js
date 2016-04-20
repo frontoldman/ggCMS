@@ -7,15 +7,23 @@ import { connect } from 'react-redux'
 import { browerHistory } from 'react-router'
 import 'antd/lib/index.css';
 import { Row, Col } from 'antd'
-import { Navbar, Content} from '../components/layout/'
+import { Navbar, Content} from './layout/'
 
 class App extends Component {
     constructor(props) {
         super(props);
+
+       // this.navToggle = this.navToggle.bind(this);
     }
 
+    // navToggle() {
+
+    // }
+
     render() {
-        const { children } = this.props;
+        const { children, history } = this.props;
+
+    
         return (
             <div className="ant-layout-aside">
                 <Navbar/>

@@ -3,10 +3,11 @@
  */
 
 import React, { Component , PropTypes } from 'react'
+import { connect } from 'react-redux'
 import { Row, Col, Menu, Icon } from 'antd'
 const SubMenu = Menu.SubMenu;
 
-export default class NavBar extends Component {
+class NavBar extends Component {
     constructor(props) {
         super(props);
 
@@ -20,21 +21,25 @@ export default class NavBar extends Component {
         this.onToggle = this.onToggle.bind(this);
     }
 
-     handleClick(e) {
-	    console.log('click ', e);
-	    this.setState({
-	      current: e.key,
-	      openKeys: e.keyPath.slice(1)
-	    });
-	  }
+	handleClick(e) {
+		console.log('click ', e);
+		this.setState({
+		  current: e.key,
+		  openKeys: e.keyPath.slice(1)
+		});
+	}
 
-	  onToggle(info) {
-	    this.setState({
-	      openKeys: info.open ? info.keyPath : info.keyPath.slice(1)
-	    });
-	  }
+	onToggle(info) {
+		this.setState({
+		  openKeys: info.open ? info.keyPath : info.keyPath.slice(1)
+		});
+	}
 
     render() {
+    	// const { routeStatus } = this.props;
+
+    	// console.log(routeStatus)
+
         return (
             <div className="ant-layout-aside">
 		      <aside className="ant-layout-sider">
@@ -42,17 +47,14 @@ export default class NavBar extends Component {
 
             	 <Menu onClick={this.handleClick}
             	 	theme="dark"
-			        style={{ width: 240 }}
 			        openKeys={this.state.openKeys}
 			        onOpen={this.onToggle}
 			        onClose={this.onToggle}
 			        selectedKeys={[this.state.current]}
 			        mode="inline">
-			        <SubMenu key="sub1" title={<span><Icon type="mail" /><span>导航一</span></span>}>
-			          <Menu.Item key="1">选项1</Menu.Item>
-			          <Menu.Item key="2">选项2</Menu.Item>
-			          <Menu.Item key="3">选项3</Menu.Item>
-			          <Menu.Item key="4">选项4</Menu.Item>
+			        <SubMenu key="sub1" title={<span><Icon type="user" /><span>用户管理</span></span>}>
+			          <Menu.Item key="1">用户组管理</Menu.Item>
+			          <Menu.Item key="2">系统用户管理</Menu.Item>
 			        </SubMenu>
 			        <SubMenu key="sub2" title={<span><Icon type="appstore" /><span>导航二</span></span>}>
 			          <Menu.Item key="5">选项5</Menu.Item>
@@ -76,3 +78,5 @@ export default class NavBar extends Component {
 }
 
 
+export default connect()(NavBar)
+//export default NavBar

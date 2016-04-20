@@ -11,6 +11,10 @@
   margin: 16px 24px 16px 28px;
 }
 
+.ant-layout-aside > .ant-layout-aside{
+  position: absolute;
+}
+
 .ant-layout-aside .ant-layout-sider {
   width: 240px;
   background: #404040;
