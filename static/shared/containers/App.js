@@ -12,13 +12,7 @@ import { Navbar, Content} from './layout/'
 class App extends Component {
     constructor(props) {
         super(props);
-
-       // this.navToggle = this.navToggle.bind(this);
     }
-
-    // navToggle() {
-
-    // }
 
     render() {
         const { children, history } = this.props;
@@ -26,7 +20,7 @@ class App extends Component {
     
         return (
             <div className="ant-layout-aside">
-                <Navbar/>
+                <Navbar />
                 <Content/>
             </div>
         )
@@ -40,4 +34,10 @@ App.propTypes = {
     children: PropTypes.node
 }
 
-export default connect(state => state)(App)
+function mapStateToProps(state, ownProps){
+    return {
+        ...state
+    }
+}
+
+export default connect(mapStateToProps)(App)

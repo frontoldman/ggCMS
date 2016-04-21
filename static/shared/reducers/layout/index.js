@@ -4,11 +4,11 @@ import { URL_CHANGE, changeUrl } from '../../actions/layout/'
 const urls = {
         '/user/addManage':{
             current:'1',
-            openKeys:['sub1','1']
+            openKeys:['sub1', '1']
         },
         '/user/':{
-            current:'1',
-            openKeys:['sub1']
+            current:'2',
+            openKeys:['sub1', '2']
         }
     }
 
@@ -18,6 +18,7 @@ function setUrl(state = {current:'1',openKeys:['sub1','1']},action){
             const url = action.url ? action.url : '/user/addManage'
             return {...urls[action.url]}
     }
+
     return state;
 }
 

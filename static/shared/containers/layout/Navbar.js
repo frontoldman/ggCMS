@@ -4,6 +4,7 @@
 
 import React, { Component , PropTypes } from 'react'
 import { connect } from 'react-redux'
+import { Link, browserHistory } from 'react-router'
 import { Row, Col, Menu, Icon } from 'antd'
 import { changeUrl } from '../../actions/layout/'
 
@@ -15,13 +16,21 @@ class NavBar extends Component {
 
         this.handleClick = this.handleClick.bind(this);
         this.onToggle = this.onToggle.bind(this);
+
+        this.listenHistory();
+
+
+    }
+
+    listenHistory(route) {
+    	const { changeUrl } = this.props;
+    	browserHistory.listen(route => {
+        	changeUrl(route.pathname)
+        })
     }
 
 	handleClick(e) {
-		this.setState({
-		  current: e.key,
-		  openKeys: e.keyPath.slice(1)
-		});
+		browserHistory.push('/user/')
 	}
 
 	onToggle(info) {
@@ -75,6 +84,7 @@ function mapStateToProps(state, ownProps){
 	const setUrl = state.layout.setUrl;
 
     return {
+    	routing:state.routing,
         current:setUrl.current,
         openKeys:setUrl.openKeys
     }
