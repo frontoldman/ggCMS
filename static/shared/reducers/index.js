@@ -2,9 +2,11 @@
  * Created by 52913 on 2016/4/12.
  */
 
-import { USER_LIST, USERNAME_CHANGE, BLOG_LIST, } from '../actions'
+import { USER_LIST, USERNAME_CHANGE, BLOG_LIST } from '../actions'
 import { routerReducer as routing } from 'react-router-redux'
 import { combineReducers } from 'redux'
+
+import layout from './layout/'
 
 function setUserName(state = {userList:[]},action){
     switch(action.type){
@@ -17,7 +19,10 @@ function setUserName(state = {userList:[]},action){
     return state;
 }
 
+
+
 const rootReducer = combineReducers({
+    layout,
     setUserName,
     routing
 })

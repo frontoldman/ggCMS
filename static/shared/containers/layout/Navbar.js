@@ -5,24 +5,19 @@
 import React, { Component , PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Row, Col, Menu, Icon } from 'antd'
+import { changeUrl } from '../../actions/layout/'
+
 const SubMenu = Menu.SubMenu;
 
 class NavBar extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-        	...props,
-        	current: '1',
-     		openKeys: []
-        }
-
         this.handleClick = this.handleClick.bind(this);
         this.onToggle = this.onToggle.bind(this);
     }
 
 	handleClick(e) {
-		console.log('click ', e);
 		this.setState({
 		  current: e.key,
 		  openKeys: e.keyPath.slice(1)
@@ -36,9 +31,7 @@ class NavBar extends Component {
 	}
 
     render() {
-    	// const { routeStatus } = this.props;
-
-    	// console.log(routeStatus)
+    	const { changeUrl, current, openKeys } = this.props;
 
         return (
             <div className="ant-layout-aside">
@@ -47,10 +40,10 @@ class NavBar extends Component {
 
             	 <Menu onClick={this.handleClick}
             	 	theme="dark"
-			        openKeys={this.state.openKeys}
+			        openKeys={openKeys}
 			        onOpen={this.onToggle}
 			        onClose={this.onToggle}
-			        selectedKeys={[this.state.current]}
+			        selectedKeys={[current]}
 			        mode="inline">
 			        <SubMenu key="sub1" title={<span><Icon type="user" /><span>用户管理</span></span>}>
 			          <Menu.Item key="1">用户组管理</Menu.Item>
@@ -78,5 +71,15 @@ class NavBar extends Component {
 }
 
 
-export default connect()(NavBar)
-//export default NavBar
+function mapStateToProps(state, ownProps){
+	const setUrl = state.layout.setUrl;
+
+    return {
+        current:setUrl.current,
+        openKeys:setUrl.openKeys
+    }
+}
+
+export default connect(mapStateToProps,{
+	changeUrl
+})(NavBar)
