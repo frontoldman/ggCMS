@@ -5,7 +5,7 @@
 import React , { Component , PropTypes } from 'react'
 import { connect } from 'react-redux'
 
-class UserManage extends Component {
+class UserGroup extends Component {
     constructor(props) {
         super(props)
     }
@@ -19,4 +19,4 @@ class UserManage extends Component {
     }
 }
 
-export default connect()(UserManage)
+export default connect()(UserGroup)

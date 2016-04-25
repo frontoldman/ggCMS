@@ -6,7 +6,7 @@ import React, { Component , PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Link, browserHistory } from 'react-router'
 import { Row, Col, Menu, Icon } from 'antd'
-import { changeUrl } from '../../actions/layout/'
+import { changeUrl, changeOpen } from '../../actions/layout/'
 
 const SubMenu = Menu.SubMenu;
 
@@ -16,14 +16,17 @@ class NavBar extends Component {
 
         this.handleClick = this.handleClick.bind(this);
         this.onToggle = this.onToggle.bind(this);
-
         this.listenHistory();
+
+        // this.state = {
+        //     openKeys: props.openKeys
+        // }
     }
 
     listenHistory(route) {
     	const { changeUrl } = this.props;
     	browserHistory.listen(route => {
-        	changeUrl(route.pathname)
+        	//changeUrl(route.pathname)
         })
     }
 
@@ -32,9 +35,9 @@ class NavBar extends Component {
 	}
 
 	onToggle(info) {
-		this.setState({
-		  openKeys: info.open ? info.keyPath : info.keyPath.slice(1)
-		});
+        const { changeOpen } = this.props;
+       // changeOpen(info.keyPath)
+        changeOpen(info.open ? info.keyPath : info.keyPath.slice(1))
 	}
 
 	renderSubMenu(){
@@ -44,16 +47,17 @@ class NavBar extends Component {
     			key:"sub1",
     			icon:'user',
     			title:'用户管理',
+                url:'/user/',
     			nodes:[
     				{
     					key:"1",
     					title:"用户组管理",
-    					url:""
+    					url:"/user/group"
     				},
     				{
     					key:"2",
     					title:"用户管理",
-    					url:""
+    					url:"/user/"
     				}
     			],
     			children:[
@@ -66,11 +70,6 @@ class NavBar extends Component {
 		    					key:"4",
 		    					title:"导航二一",
 		    					url:""
-		    				},
-		    				{
-		    					key:"5",
-		    					title:"导航二而",
-		    					url:""
 		    				}
 		    			]
     				}
@@ -79,28 +78,40 @@ class NavBar extends Component {
     		{
     			key:"sub3",
     			icon:'appstore',
-    			title:'导航三'
+    			title:'导航三',
+                nodes:[
+                            {
+                                key:"10",
+                                title:"导航二一",
+                                url:""
+                            }
+                        ]
     		}
     	]
 
 		function _render(data,type){
+
 			if(Array.isArray(data)){
-				return data.map(item => {
+				var list = data.map(item => {
 					if(type === 'subMenu' || !type){
 						var title = (<span><Icon type={item.icon} /><span>{item.title}</span></span>)
 
 						return (
 								<SubMenu key={item.key} title={title}>
-									{item.nodes ? _render(item.nodes,'item'):''}
-									{item.children ? _render(item.children,'subMenu'):''}
+									{_render(item.nodes,'item')}
+									{_render(item.children,'subMenu')}
 								</SubMenu>
 							)
+                            
 					}else if(type === 'item'){
+
 						return (
 							<Menu.Item key={item.key}>{item.title}</Menu.Item>
 						)
 					}
 				})
+
+                return list
 			}
 		}
 
@@ -109,6 +120,11 @@ class NavBar extends Component {
 
     render() {
     	const { changeUrl, current, openKeys } = this.props;
+      //  const { openKeys } = this.state;
+
+        console.log(openKeys)
+
+       // const openKeys = [];
 
         return (
             <div className="ant-layout-aside">
@@ -122,7 +138,7 @@ class NavBar extends Component {
 			        onClose={this.onToggle}
 			        selectedKeys={[current]}
 			        mode="inline">
-			        {this.renderSubMenu()}
+			       {this.renderSubMenu()}
 			      </Menu>
             </aside>
            </div>
@@ -130,16 +146,18 @@ class NavBar extends Component {
     }
 }
 
-
 function mapStateToProps(state, ownProps){
-	const setUrl = state.layout.setUrl;
+	const { setUrl, setOpenKeys } = state.layout;
+
+
 
     return {
         current:setUrl.current,
-        openKeys:setUrl.openKeys
+        openKeys:setOpenKeys.openKeys
     }
 }
 
 export default connect(mapStateToProps,{
-	changeUrl
+	changeUrl,
+    changeOpen
 })(NavBar)

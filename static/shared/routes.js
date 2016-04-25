@@ -6,15 +6,14 @@ import React from 'react'
 import { Route } from 'react-router'
 import App from './containers/App'
 import UserPage from './containers/user/UserPage'
-import UserManage from './containers/user/UserManage'
+import UserGroup from './containers/user/UserGroup'
 import BlogPage from './containers/BlogPage'
 
 export default (
     <Route path="/" component={App}>
-        <Route path="/user" component={UserPage}>
-            <Route path="/user/addManage" component={UserManage}/>
-        </Route>
-        <Route path="/blog" component={BlogPage}/>
+        <Route path="/user" component={UserPage} />
+        <Route path="/user/group" component={UserGroup} />
+        <Route path="/blog" component={BlogPage} />
     </Route>
 )
 
