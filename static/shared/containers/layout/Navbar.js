@@ -96,13 +96,32 @@ class NavBar extends Component {
 					if(type === 'subMenu' || !type){
 						var title = (<span><Icon type={item.icon} /><span>{item.title}</span></span>)
 
-						return (
-								<SubMenu key={item.key} title={title}>
-									{_render(item.nodes,'item')}
-									{_render(item.children,'subMenu')}
-								</SubMenu>
-							)
-                            
+                        if(item.nodes && item.children){
+                            return (
+                                <SubMenu key={item.key} title={title}>
+                                    {_render(item.nodes,'item')}
+                                    {_render(item.children,'subMenu')}
+                                </SubMenu>
+                            )
+                        }else if(item.nodes){
+                            return (
+                                <SubMenu key={item.key} title={title}>
+                                    {_render(item.nodes,'item')}
+                                </SubMenu>
+                            )
+                        }else if(item.children){
+                            return (
+                                <SubMenu key={item.key} title={title}>
+                                    {_render(item.children,'subMenu')}
+                                </SubMenu>
+                            )
+                        }else{
+                            return (
+                                <SubMenu key={item.key} title={title}>
+                                </SubMenu>
+                            )
+                        }
+
 					}else if(type === 'item'){
 
 						return (
