@@ -11,6 +11,8 @@ export default class Content extends Component {
     }
 
     render() {
+    	const { children } = this.props;
+
         return (
               <div className="ant-layout-main">
 		        <div className="ant-layout-header"></div>
@@ -24,7 +26,7 @@ export default class Content extends Component {
 		        <div className="ant-layout-container">
 		          <div className="ant-layout-content">
 		            <div style={{ height: 590 }}>
-		              内容区域
+		              {children}
 		            </div>
 		          </div>
 		        </div>
