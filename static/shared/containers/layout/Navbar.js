@@ -18,8 +18,6 @@ class NavBar extends Component {
         this.onToggle = this.onToggle.bind(this);
 
         this.listenHistory();
-
-
     }
 
     listenHistory(route) {
@@ -39,6 +37,76 @@ class NavBar extends Component {
 		});
 	}
 
+	renderSubMenu(){
+
+		const navsData = [
+    		{
+    			key:"sub1",
+    			icon:'user',
+    			title:'用户管理',
+    			nodes:[
+    				{
+    					key:"1",
+    					title:"用户组管理",
+    					url:""
+    				},
+    				{
+    					key:"2",
+    					title:"用户管理",
+    					url:""
+    				}
+    			],
+    			children:[
+    				{
+    					key:'sub2',
+    					icon:'appstore',
+    					title:'导航二',
+    					nodes:[
+		    				{
+		    					key:"4",
+		    					title:"导航二一",
+		    					url:""
+		    				},
+		    				{
+		    					key:"5",
+		    					title:"导航二而",
+		    					url:""
+		    				}
+		    			]
+    				}
+    			]
+    		},
+    		{
+    			key:"sub3",
+    			icon:'appstore',
+    			title:'导航三'
+    		}
+    	]
+
+		function _render(data,type){
+			if(Array.isArray(data)){
+				return data.map(item => {
+					if(type === 'subMenu' || !type){
+						var title = (<span><Icon type={item.icon} /><span>{item.title}</span></span>)
+
+						return (
+								<SubMenu key={item.key} title={title}>
+									{item.nodes ? _render(item.nodes,'item'):''}
+									{item.children ? _render(item.children,'subMenu'):''}
+								</SubMenu>
+							)
+					}else if(type === 'item'){
+						return (
+							<Menu.Item key={item.key}>{item.title}</Menu.Item>
+						)
+					}
+				})
+			}
+		}
+
+		return _render(navsData)
+	}
+
     render() {
     	const { changeUrl, current, openKeys } = this.props;
 
@@ -54,24 +122,7 @@ class NavBar extends Component {
 			        onClose={this.onToggle}
 			        selectedKeys={[current]}
 			        mode="inline">
-			        <SubMenu key="sub1" title={<span><Icon type="user" /><span>用户管理</span></span>}>
-			          <Menu.Item key="1">用户组管理</Menu.Item>
-			          <Menu.Item key="2">系统用户管理</Menu.Item>
-			        </SubMenu>
-			        <SubMenu key="sub2" title={<span><Icon type="appstore" /><span>导航二</span></span>}>
-			          <Menu.Item key="5">选项5</Menu.Item>
-			          <Menu.Item key="6">选项6</Menu.Item>
-			          <SubMenu key="sub3" title="三级导航">
-			            <Menu.Item key="7">选项7</Menu.Item>
-			            <Menu.Item key="8">选项8</Menu.Item>
-			          </SubMenu>
-			        </SubMenu>
-			        <SubMenu key="sub4" title={<span><Icon type="setting" /><span>导航三</span></span>}>
-			          <Menu.Item key="9">选项9</Menu.Item>
-			          <Menu.Item key="10">选项10</Menu.Item>
-			          <Menu.Item key="11">选项11</Menu.Item>
-			          <Menu.Item key="12">选项12</Menu.Item>
-			        </SubMenu>
+			        {this.renderSubMenu()}
 			      </Menu>
             </aside>
            </div>
@@ -84,7 +135,6 @@ function mapStateToProps(state, ownProps){
 	const setUrl = state.layout.setUrl;
 
     return {
-    	routing:state.routing,
         current:setUrl.current,
         openKeys:setUrl.openKeys
     }
