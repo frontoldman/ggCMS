@@ -4,17 +4,8 @@
 
 var fs = require('fs')
 var koa = require('koa')
-// var webpack = require('webpack')
-// var webpackDevMiddleware = require('koa-webpack-dev-middleware')
-// var webpackHotMiddleware = require("koa-webpack-hot-middleware")
-// var webpackConfig = require('./webpack.config')
 var config = require('./config')
-
 var app = koa();
-
-// var compiler = webpack(webpackConfig);
-// app.use(webpackDevMiddleware(compiler, {noInfo: false, publicPath: webpackConfig.output.publicPath}))
-// app.use(webpackHotMiddleware(compiler))
 
 app.use(function *(next){
     if(this.path.indexOf('/static/bundle.js') > -1 ){
@@ -38,4 +29,8 @@ app.use(function *(next){
     }
 })
 
-module.exports = app
+var server = function(fn){
+    app.listen(config.port, fn)
+}
+
+module.exports = server;

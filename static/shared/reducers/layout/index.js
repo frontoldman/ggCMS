@@ -25,7 +25,7 @@ function setUrl(state = {current:'1'},action){
 function setOpenKeys(state = {openKeys:['sub1']},action){
     switch(action.type){
         case OPEN_KEYS_CHANGE:
-            return {openKeys:action.openKeys}
+             return {openKeys:action.openKeys}
             break;
     }
 

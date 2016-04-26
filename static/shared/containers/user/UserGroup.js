@@ -3,7 +3,8 @@
  */
 
 import React , { Component , PropTypes } from 'react'
-import { Table } from 'antd';
+import { Table, Button } from 'antd';
+import { Link, browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 
 
@@ -16,18 +17,22 @@ class UserGroup extends Component {
         super(props)
     }
 
+    goToGroupCreate() {
+        browserHistory.push('/user/group/create')
+    }
+
     render() {
         const columns = [{
-          title: '姓名',
+          title: '用户组名称',
           dataIndex: 'name',
           render(text) {
             return <a href="#">{text}</a>;
           }
         }, {
-          title: '年龄',
+          title: '创建人',
           dataIndex: 'age'
         }, {
-          title: '住址',
+          title: '创建时间',
           dataIndex: 'address'
         }];
 
@@ -53,7 +58,12 @@ class UserGroup extends Component {
         };
 
         return (
-            <Table columns={columns} dataSource={data} pagination={pagination} />
+            <div>
+                <Button onClick={this.goToGroupCreate} type="primary" size="large">添加用户组</Button>
+                <br />
+                <br />
+                <Table columns={columns} dataSource={data} pagination={pagination} />
+            </div>
         )
     }
 }

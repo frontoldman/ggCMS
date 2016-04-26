@@ -1,6 +1,23 @@
 #!/usr/bin/env node
 
 var config = require('../config')
-var app = require('../app')
+var server = require('../server')
+var db = require('../model/');
+var co = require('co')
 
-app.listen(config.port,() => console.log(`listening on ${config.port}`));
+
+co(function *(){
+	var dbServerError = yield db;
+	if(!dbServerError){
+		console.log(`start mongodb on ${config.db.url} successfully`)
+	}
+
+	//启动服务器
+	var listenError = yield server;
+	if(!listenError){
+		console.log(`listening on ${config.port}`)
+	}
+
+
+	
+})
