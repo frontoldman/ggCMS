@@ -14,17 +14,12 @@ const RadioGroup = Radio.Group;
 class UserGroupEdit extends Component {
     constructor(props) {
         super(props)
-
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-
+ 
     handleSubmit(e) {
       e.preventDefault();
       console.log('收到表单值：', this.props.form.getFieldsValue());
-    }
-
-    goToGroupCreate() {
-        browserHistory.push('/user/group/create')
     }
 
     render() {
@@ -37,8 +32,8 @@ class UserGroupEdit extends Component {
                 label="输入用户组名称："
                 labelCol={{ span: 6 }}
                 wrapperCol={{ span: 14 }}>
-                <Input id="control-input" placeholder="Please enter..." />
-              </FormItem>
+                <Input id="control-input" {...getFieldProps('name')} placeholder="Please enter..." />
+              </FormItem> 
 
               <FormItem wrapperCol={{ span: 16, offset: 8 }} style={{ marginTop: 24 }}>
                 <Button type="primary" htmlType="submit">保存</Button>
@@ -49,5 +44,7 @@ class UserGroupEdit extends Component {
         )
     }
 }
+
+UserGroupEdit = Form.create()(UserGroupEdit);
 
 export default connect()(UserGroupEdit)
