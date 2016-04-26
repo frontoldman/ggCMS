@@ -11,13 +11,16 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
 
-function handleSelectChange(value) {
-  console.log(`selected ${value}`);
-}
-
 class UserGroupEdit extends Component {
     constructor(props) {
         super(props)
+
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleSubmit(e) {
+      e.preventDefault();
+      console.log('收到表单值：', this.props.form.getFieldsValue());
     }
 
     goToGroupCreate() {
@@ -25,8 +28,10 @@ class UserGroupEdit extends Component {
     }
 
     render() {
+        const { getFieldProps } = this.props.form;
+
         return (
-             <Form horizontal>
+             <Form horizontal onSubmit={this.handleSubmit}>
               <FormItem
                 id="control-input"
                 label="输入用户组名称："

@@ -25,6 +25,7 @@
   "dependencies": {
     "antd": "^0.12.14",
     "koa": "^1.2.0",
+    "koa-router": "^5.4.0",
     "mongoose": "^4.4.13",
     "react": "^15.0.1",
     "react-dom": "^15.0.1",

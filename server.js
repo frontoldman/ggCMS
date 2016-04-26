@@ -5,17 +5,20 @@
 var fs = require('fs')
 var koa = require('koa')
 var config = require('./config')
+var router = require('./router/')
+
 var app = koa();
 
+app.use(router.routes())
+
 app.use(function *(next){
-    if(this.path.indexOf('/static/bundle.js') > -1 ){
+    if(this.path == '/static/bundle.js'){
         this.body = fs.createReadStream('./dist/bundle.js');
         this.type = 'application/javascript; charset=utf-8';
     }else{
         yield *next;
     }
 })
-
 
 app.use(function *(next){
     if(this.path.indexOf('/api') === -1 ){
@@ -24,7 +27,6 @@ app.use(function *(next){
         }catch(e){
             console.log(e);
         }
-
         this.type = 'text/html; charset=utf-8';
     }
 })
