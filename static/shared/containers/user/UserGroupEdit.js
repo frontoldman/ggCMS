@@ -6,6 +6,7 @@ import React , { Component , PropTypes } from 'react'
 import { Form, Input, Select, Checkbox, Radio, Button } from 'antd';
 import { Link, browserHistory } from 'react-router'
 import { connect } from 'react-redux'
+import { startAdd, addSuccess } from '../../actions/user/group'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -17,13 +18,19 @@ class UserGroupEdit extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
  
-    handleSubmit(e) {
-      e.preventDefault();
-      console.log('收到表单值：', this.props.form.getFieldsValue());
+    handleSubmit(e) { 
+      e.preventDefault(); 
+      const { startAdd } = this.props;
+      const fields = this.props.form.getFieldsValue();
+      startAdd(fields);
+      
     }
 
     render() {
         const { getFieldProps } = this.props.form;
+        const { fetch } = this.props;
+
+        console.log(fetch)
 
         return (
              <Form horizontal onSubmit={this.handleSubmit}>
@@ -36,7 +43,7 @@ class UserGroupEdit extends Component {
               </FormItem> 
 
               <FormItem wrapperCol={{ span: 16, offset: 8 }} style={{ marginTop: 24 }}>
-                <Button type="primary" htmlType="submit">保存</Button>
+                <Button type="primary" loading={fetch.isFetching} htmlType="submit">保存</Button>
               </FormItem>
              
             </Form>
@@ -47,4 +54,13 @@ class UserGroupEdit extends Component {
 
 UserGroupEdit = Form.create()(UserGroupEdit);
 
-export default connect()(UserGroupEdit)
+function mapStateToProps(state, ownProps){
+    return {
+        fetch: state.userGroup.fetch
+    }
+}
+
+export default connect(mapStateToProps,{
+  startAdd,
+  addSuccess
+})(UserGroupEdit)

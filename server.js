@@ -4,10 +4,14 @@
 
 var fs = require('fs')
 var koa = require('koa')
+var bodyParser = require('koa-bodyparser');
 var config = require('./config')
 var router = require('./router/')
 
 var app = koa();
+
+//中间件集合
+app.use(bodyParser());
 
 app.use(router.routes())
 

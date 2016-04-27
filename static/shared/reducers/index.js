@@ -7,6 +7,7 @@ import { routerReducer as routing } from 'react-router-redux'
 import { combineReducers } from 'redux'
 
 import layout from './layout/'
+import userGroup from './user/group'
 
 function setUserName(state = {userList:[]},action){
     switch(action.type){
@@ -23,6 +24,7 @@ function setUserName(state = {userList:[]},action){
 
 const rootReducer = combineReducers({
     layout,
+    userGroup,
     setUserName,
     routing
 })
