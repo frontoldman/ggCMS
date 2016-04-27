@@ -26,11 +26,15 @@ class UserGroupEdit extends Component {
       
     }
 
+    componentWillReceiveProps(nextProps) {
+      if(nextProps.fetch.data){
+        browserHistory.push('/user/group')
+      }
+    }
+
     render() {
         const { getFieldProps } = this.props.form;
         const { fetch } = this.props;
-
-        console.log(fetch)
 
         return (
              <Form horizontal onSubmit={this.handleSubmit}>
@@ -45,7 +49,6 @@ class UserGroupEdit extends Component {
               <FormItem wrapperCol={{ span: 16, offset: 8 }} style={{ marginTop: 24 }}>
                 <Button type="primary" loading={fetch.isFetching} htmlType="submit">保存</Button>
               </FormItem>
-             
             </Form>
 
         )

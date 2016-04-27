@@ -16,12 +16,15 @@ function handleSelectChange(value) {
 class UserGroup extends Component {
     constructor(props) {
         super(props)
-
-        this.props.getList();
     }
 
     goToGroupCreate() {
         browserHistory.push('/user/group/create')
+    }
+
+    componentDidMount() {
+      const { getList } = this.props
+      getList();
     }
 
     render() {
