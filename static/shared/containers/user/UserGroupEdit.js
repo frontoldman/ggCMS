@@ -56,7 +56,7 @@ UserGroupEdit = Form.create()(UserGroupEdit);
 
 function mapStateToProps(state, ownProps){
     return {
-        fetch: state.userGroup.fetch
+        fetch: state.userGroup.createFetch
     }
 }
 

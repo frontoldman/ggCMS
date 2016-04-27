@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
-import { GROUP_START_ADD, GROUP_ADD_SUCCESS } from '../../actions/user/group'
+import { GROUP_START_ADD, GROUP_ADD_SUCCESS, GROUP_LIST_GET } from '../../actions/user/group'
 
-function fetch(state = {isFetching: false, data: {}}, action){
+function createFetch(state = {isFetching: false, data: {}}, action){
 	switch(action.type){
 		case GROUP_START_ADD:
 			return {...state, isFetching: true}
@@ -13,6 +13,17 @@ function fetch(state = {isFetching: false, data: {}}, action){
 	return state;
 }
 
+function listFetch(state = {list: []}, action){
+	switch(action.type){
+		case GROUP_LIST_GET:
+			return {list: action.data}
+			break;
+	}
+
+	return state;
+}
+
 export default combineReducers({
-    fetch
+    createFetch,
+    listFetch
 })

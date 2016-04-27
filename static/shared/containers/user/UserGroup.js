@@ -6,6 +6,7 @@ import React , { Component , PropTypes } from 'react'
 import { Table, Button } from 'antd';
 import { Link, browserHistory } from 'react-router'
 import { connect } from 'react-redux'
+import { getList } from '../../actions/user/group'
 
 
 function handleSelectChange(value) { 
@@ -15,6 +16,8 @@ function handleSelectChange(value) {
 class UserGroup extends Component {
     constructor(props) {
         super(props)
+
+        this.props.getList();
     }
 
     goToGroupCreate() {
@@ -22,32 +25,29 @@ class UserGroup extends Component {
     }
 
     render() {
+
+        const { data } = this.props;
+        const list = data.list;
+
+        list.forEach(item => item.key = item._id)
+
         const columns = [{
           title: '用户组名称',
           dataIndex: 'name',
-          render(text) {
-            return <a href="#">{text}</a>;
+          key: '_id',
+          render(text, item) {
+            var link = `/user/group/${item._id}`
+            return <a href={link}>{text}</a>;
           }
         }, {
           title: '创建人',
-          dataIndex: 'age'
         }, {
           title: '创建时间',
-          dataIndex: 'address'
+          dataIndex: 'createTime'
         }];
 
-        const data = [];
-        for (let i = 0; i < 46; i++) {
-          data.push({
-            key: i,
-            name: `李大嘴${i}`,
-            age: 32,
-            address: `西湖区湖底公园${i}号`
-          });
-        }
-
         const pagination = {
-          total: data.length,
+          total: list.length,
           showSizeChanger: true,
           onShowSizeChange(current, pageSize) {
             console.log('Current: ', current, '; PageSize: ', pageSize);
@@ -62,10 +62,18 @@ class UserGroup extends Component {
                 <Button onClick={this.goToGroupCreate} type="primary" size="large">添加用户组</Button>
                 <br />
                 <br />
-                <Table columns={columns} dataSource={data} pagination={pagination} />
+                <Table columns={columns} dataSource={list} pagination={pagination} />
             </div>
         )
     }
 }
 
-export default connect()(UserGroup)
+function mapStateToProps(state, ownProps){
+    return {
+        data: state.userGroup.listFetch
+    }
+}
+
+export default connect(mapStateToProps,{
+  getList
+})(UserGroup)
