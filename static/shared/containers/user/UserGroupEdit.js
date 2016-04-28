@@ -7,6 +7,7 @@ import { Form, Input, Select, Checkbox, Radio, Button } from 'antd';
 import { Link, browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { startAdd, addSuccess } from '../../actions/user/group'
+import { timeFormat } from '../../util/timer'
 
 const FormItem = Form.Item;
 const Option = Select.Option;

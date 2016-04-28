@@ -7,7 +7,7 @@ import { Table, Button } from 'antd';
 import { Link, browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { getList } from '../../actions/user/group'
-
+import { timeFormat } from '../../util/timer'
 
 function handleSelectChange(value) { 
   console.log(`selected ${value}`);
@@ -37,7 +37,6 @@ class UserGroup extends Component {
         const columns = [{
           title: '用户组名称',
           dataIndex: 'name',
-          key: '_id',
           render(text, item) {
             var link = `/user/group/${item._id}`
             return <a href={link}>{text}</a>;
@@ -46,7 +45,10 @@ class UserGroup extends Component {
           title: '创建人',
         }, {
           title: '创建时间',
-          dataIndex: 'createTime'
+          dataIndex: 'createTime',
+          render(timeString) {
+            return timeFormat(timeString)
+          }
         }];
 
         const pagination = {

@@ -7,6 +7,7 @@ router.post('/group/add',function *(next){
 	var userGroup = yield UserGroup.create({
 		name: body.name
 	})
+	
 	this.body = {code:1000};
 })
 
