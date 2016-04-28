@@ -2,6 +2,7 @@
 export const GROUP_START_ADD = 'GROUP_START_ADD'
 export const GROUP_ADD_SUCCESS = 'GROUP_ADD_SUCCESS'
 export const GROUP_LIST_GET = 'GROUP_LIST_GET'
+export const GROUP_DETAIL = 'GROUP_DETAIL'
 
 //新增用户组
 function addGroup(fields){
@@ -16,9 +17,18 @@ function addGroup(fields){
 }
 
 //获取用户组列表
-function getGroupList(){
-	return fetch('/api/user/group')
+function getGroupList(id){
+	return fetch('/api/user/group',{
+		method: 'GET',
+		body: `id=${id}`
+	})
   		.then(response => response.json())
+}
+
+//获取单个用户详细信息
+function getGroupById(id){
+	return fetch('/api/user/group/',{id})
+		.then(response => response.json())
 }
 
 export function startAdd(fields){
@@ -43,6 +53,16 @@ export function getList(){
 		getGroupList()
 		.then(data => dispatch({
 			type: GROUP_LIST_GET,
+			data
+		}))
+	}
+}
+
+export function getGroupDetail(id){
+	return distach => {
+		getGroupById(id)
+		.then(data => distach({
+			type: GROUP_DETAIL,
 			data
 		}))
 	}

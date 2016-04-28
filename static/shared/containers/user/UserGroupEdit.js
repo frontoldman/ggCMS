@@ -6,7 +6,7 @@ import React , { Component , PropTypes } from 'react'
 import { Form, Input, Select, Checkbox, Radio, Button } from 'antd';
 import { Link, browserHistory } from 'react-router'
 import { connect } from 'react-redux'
-import { startAdd, addSuccess } from '../../actions/user/group'
+import { startAdd, addSuccess, getGroupDetail } from '../../actions/user/group'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -31,12 +31,12 @@ class UserGroupEdit extends Component {
       setFieldsValue({'name':'haha'})
     }
 
-    shouldComponentUpdate(props) {
+    componentDidMount (props) {
       const { route, routeParams } = this.props;
-      if(route){
-        
+      console.log(route.name === 'UserGroupEdit')
+      if(route.name === 'UserGroupEdit'){
+        this.props.getGroupDetail(routeParams.id);
       }
-      return true;
     }
 
     componentWillReceiveProps(nextProps) {
@@ -72,11 +72,13 @@ UserGroupEdit = Form.create()(UserGroupEdit);
 
 function mapStateToProps(state, ownProps){
     return {
-        fetch: state.userGroup.createFetch
+        fetch: state.userGroup.createFetch,
+        detail: state.userGroup.detailFetch
     }
 }
 
 export default connect(mapStateToProps,{
   startAdd,
-  addSuccess
+  addSuccess,
+  getGroupDetail
 })(UserGroupEdit)
