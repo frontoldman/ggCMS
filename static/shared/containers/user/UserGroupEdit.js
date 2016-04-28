@@ -7,7 +7,6 @@ import { Form, Input, Select, Checkbox, Radio, Button } from 'antd';
 import { Link, browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { startAdd, addSuccess } from '../../actions/user/group'
-import { timeFormat } from '../../util/timer'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -24,7 +23,20 @@ class UserGroupEdit extends Component {
       const { startAdd } = this.props;
       const fields = this.props.form.getFieldsValue();
       startAdd(fields);
-      
+    }
+
+    componentWillMount() {
+      const { setFieldsValue } = this.props.form;
+      //console.log( setFieldsValue )
+      setFieldsValue({'name':'haha'})
+    }
+
+    shouldComponentUpdate(props) {
+      const { route, routeParams } = this.props;
+      if(route){
+        
+      }
+      return true;
     }
 
     componentWillReceiveProps(nextProps) {
@@ -44,7 +56,7 @@ class UserGroupEdit extends Component {
                 label="输入用户组名称："
                 labelCol={{ span: 6 }}
                 wrapperCol={{ span: 14 }}>
-                <Input id="control-input" {...getFieldProps('name')} placeholder="Please enter..." />
+                <Input id="control-input" {...getFieldProps('name')} defaultValue="hi" placeholder="Please enter..." />
               </FormItem> 
 
               <FormItem wrapperCol={{ span: 16, offset: 8 }} style={{ marginTop: 24 }}>

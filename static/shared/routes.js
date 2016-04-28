@@ -15,6 +15,7 @@ export default (
         <Route path="/user" component={UserPage} />
         <Route path="/user/group" component={UserGroup} />
         <Route path="/user/group/create" component={UserGroupEdit} />
+        <Route path="/user/group/edit/:id" component={UserGroupEdit} />
         <Route path="/blog" component={BlogPage} />
     </Route>
 )
