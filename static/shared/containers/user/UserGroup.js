@@ -3,20 +3,47 @@
  */
 
 import React , { Component , PropTypes } from 'react'
-import { Table, Button } from 'antd';
+import { Table, Button, notification, Popconfirm} from 'antd';
 import { Link, browserHistory } from 'react-router'
 import { connect } from 'react-redux'
-import { getList } from '../../actions/user/group'
+import { getList, startDelete, resetDeleteStatus } from '../../actions/user/group'
 import { timeFormat } from '../../util/timer'
 
+const openNotificationWithIcon = function (type, message) {
+    return notification[type]({
+      message
+    });
+};
 
 class UserGroup extends Component {
     constructor(props) {
         super(props)
+        this.deleteById = this.deleteById.bind(this);
     }
 
     goToGroupCreate() {
         browserHistory.push('/user/group/create')
+    }
+
+    deleteById(id) {
+      const { startDelete } = this.props;
+      startDelete(id);
+    }
+
+
+
+    componentWillReceiveProps(nextProps) {
+      const { resetDeleteStatus, getList } = this.props;
+      switch(nextProps.deleteStatus.deletingStatus){
+        case 0:
+            openNotificationWithIcon('info', '正在删除。。。');
+          break;
+        case 1:
+            openNotificationWithIcon('success', '删除成功');
+            resetDeleteStatus();
+            getList();
+          break;
+      }
     }
 
     componentDidMount() {
@@ -24,8 +51,10 @@ class UserGroup extends Component {
       getList();
     }
 
-    render() {
 
+
+    render() {
+        const self = this;
         const { data } = this.props;
         const list = data.list;
 
@@ -52,9 +81,11 @@ class UserGroup extends Component {
             const editLink = `/user/group/edit/${item._id}`; 
             return (
               <div>
-                <Button onClick={()=>browserHistory.push(editLink)} type="primary">编辑</Button>
+                <Button onClick={() => browserHistory.push(editLink)} type="primary">编辑</Button>
                 &nbsp;&nbsp;
-                <Button onClick={()=>browserHistory.push(deleteLink)} type="primary" style={{backgroundColor:'red',borderColor:'red'}}>删除</Button>
+                <Popconfirm title="确定要删除这个用户组吗？" onConfirm={() => self.deleteById(item._id)}>
+                      <Button type="primary" style={{backgroundColor:'red',borderColor:'red'}}>删除</Button>
+                </Popconfirm>
               </div>
             )
           }
@@ -84,10 +115,13 @@ class UserGroup extends Component {
 
 function mapStateToProps(state, ownProps){
     return {
-        data: state.userGroup.listFetch
+        data: state.userGroup.listFetch,
+        deleteStatus: state.userGroup.deleteFetch
     }
 }
 
 export default connect(mapStateToProps,{
-  getList
+  getList,
+  startDelete,
+  resetDeleteStatus
 })(UserGroup)

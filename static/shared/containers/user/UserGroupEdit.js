@@ -3,7 +3,7 @@
  */
 
 import React , { Component , PropTypes } from 'react'
-import { Form, Input, Select, Checkbox, Radio, Button } from 'antd';
+import { Form, Input, Select, Checkbox, Radio, Button, notification  } from 'antd';
 import { Link, browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { 
@@ -11,11 +11,19 @@ import {
     startEdit, 
     addSuccess, 
     getGroupDetail,
-    resetGroupStatus } from '../../actions/user/group'
+    resetGroupStatus,
+    startDelete,
+    resetDeleteStatus } from '../../actions/user/group'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
+
+const openNotificationWithIcon = function (type, message) {
+    return notification[type]({
+      message
+    });
+};
 
 class UserGroupEdit extends Component {
     constructor(props) {
@@ -42,8 +50,13 @@ class UserGroupEdit extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-      const { resetGroupStatus } = this.props;
+      const { route, resetGroupStatus } = this.props;
       if(nextProps.fetch.data){
+        if(route.name === 'UserGroupEdit'){
+          openNotificationWithIcon('success','修改成功')
+        }else{
+          openNotificationWithIcon('success','添加成功')
+        }
         resetGroupStatus();
         browserHistory.push('/user/group');
       }
@@ -52,6 +65,8 @@ class UserGroupEdit extends Component {
     render() {
         const { getFieldProps } = this.props.form;
         const { fetch, detailFetch } = this.props;
+
+
 
         return (
              <Form horizontal onSubmit={this.handleSubmit}>

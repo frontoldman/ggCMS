@@ -5,6 +5,9 @@ export const GROUP_ADD_SUCCESS = 'GROUP_ADD_SUCCESS'
 export const GROUP_LIST_GET = 'GROUP_LIST_GET'
 export const GROUP_DETAIL = 'GROUP_DETAIL'
 export const GROUP_STATUS_RESET = 'GROUP_STATUS_RESET'
+export const GROUP_DELETE_START = 'GROUP_DELETE_START'
+export const GROUP_DELETE_SUCCESS = 'GROUP_DELETE_SUCCESS'
+export const GROUP_DELETE_RESET = 'GROUP_DELETE_RESET'
 
 //新增用户组
 function addGroup(fields){
@@ -38,10 +41,18 @@ function getGroupList(id){
   	.then(response => response.json())
 }
 
-//获取单个用户详细信息
+//获取单个用户组详细信息
 function getGroupById(id){
 	return fetch(`/api/user/group/${id}`)
 		.then(response => response.json())
+}
+
+//删除单个组
+function deleteGroupById(id){
+	return fetch(`/api/user/group/${id}`,{
+		method: 'delete'
+	})
+	.then(response => response.json())
 }
 
 export function startAdd(fields){
@@ -94,5 +105,24 @@ export function getGroupDetail(id){
 export function resetGroupStatus(){
 	return dispatch => dispatch({
 		type: GROUP_STATUS_RESET
+	})
+}
+
+export function startDelete(id){
+	return dispatch => {
+		dispatch({
+			type: GROUP_DELETE_START
+		})
+
+		deleteGroupById(id)
+		.then(data => dispatch({
+			type: GROUP_DELETE_SUCCESS
+		}))
+	}
+}
+
+export function resetDeleteStatus(){
+	return dispatch => dispatch({
+		type: GROUP_DELETE_RESET
 	})
 }
