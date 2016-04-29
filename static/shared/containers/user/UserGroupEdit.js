@@ -6,7 +6,12 @@ import React , { Component , PropTypes } from 'react'
 import { Form, Input, Select, Checkbox, Radio, Button } from 'antd';
 import { Link, browserHistory } from 'react-router'
 import { connect } from 'react-redux'
-import { startAdd, addSuccess, getGroupDetail } from '../../actions/user/group'
+import { 
+    startAdd, 
+    startEdit, 
+    addSuccess, 
+    getGroupDetail,
+    resetGroupStatus } from '../../actions/user/group'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -20,34 +25,33 @@ class UserGroupEdit extends Component {
  
     handleSubmit(e) { 
       e.preventDefault(); 
-      const { startAdd } = this.props;
+      const { startAdd, route, routeParams, startEdit } = this.props;
       const fields = this.props.form.getFieldsValue();
-      startAdd(fields);
-    }
-
-    componentWillMount() {
-      const { setFieldsValue } = this.props.form;
-      //console.log( setFieldsValue )
-      setFieldsValue({'name':'haha'})
+      if(route.name === 'UserGroupEdit'){
+        startEdit(fields,routeParams.id)
+      }else{
+        startAdd(fields);
+      }
     }
 
     componentDidMount (props) {
-      const { route, routeParams } = this.props;
-      console.log(route.name === 'UserGroupEdit')
+      const { route, routeParams, getGroupDetail } = this.props;
       if(route.name === 'UserGroupEdit'){
-        this.props.getGroupDetail(routeParams.id);
+        getGroupDetail(routeParams.id);
       }
     }
 
     componentWillReceiveProps(nextProps) {
+      const { resetGroupStatus } = this.props;
       if(nextProps.fetch.data){
-        browserHistory.push('/user/group')
+        resetGroupStatus();
+        browserHistory.push('/user/group');
       }
     }
 
     render() {
         const { getFieldProps } = this.props.form;
-        const { fetch } = this.props;
+        const { fetch, detailFetch } = this.props;
 
         return (
              <Form horizontal onSubmit={this.handleSubmit}>
@@ -68,11 +72,23 @@ class UserGroupEdit extends Component {
     }
 }
 
-UserGroupEdit = Form.create()(UserGroupEdit);
+function mapPropsToFields(props){
+  
+  const { detail } = props;
+  const name = detail.data ? detail.data.name : ''
+
+  return {
+    name:{value: name}
+  }
+}
+
+UserGroupEdit = Form.create({
+  mapPropsToFields
+})(UserGroupEdit);
 
 function mapStateToProps(state, ownProps){
     return {
-        fetch: state.userGroup.createFetch,
+        fetch: state.userGroup.editFetch,
         detail: state.userGroup.detailFetch
     }
 }
@@ -80,5 +96,7 @@ function mapStateToProps(state, ownProps){
 export default connect(mapStateToProps,{
   startAdd,
   addSuccess,
-  getGroupDetail
+  getGroupDetail,
+  startEdit,
+  resetGroupStatus
 })(UserGroupEdit)
