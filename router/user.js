@@ -1,5 +1,6 @@
 var router = require('koa-router')();
-var UserGroup = require('../model/UserGroup')
+var UserGroup = require('../model/UserGroup');
+var User = require('../model/User');
 
 //添加userGroup
 router.post('/group',function *(next){
@@ -36,6 +37,11 @@ router.put('/group/:id',function *(next){
 router.delete('/group/:id',function *(next){
 	var userGroup = yield UserGroup.remove({_id: this.params.id});
 	this.body = userGroup
+})
+
+//增加单个用户
+router.post('/admin',function *(next){
+
 })
 
 module.exports = router
