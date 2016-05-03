@@ -95,10 +95,10 @@ class UserGroup extends Component {
           total: list.length,
           showSizeChanger: true,
           onShowSizeChange(current, pageSize) {
-            console.log('Current: ', current, '; PageSize: ', pageSize);
+            //console.log('Current: ', current, '; PageSize: ', pageSize);
           },
           onChange(current) {
-            console.log('Current: ', current);
+            //console.log('Current: ', current);
           }
         };
 
