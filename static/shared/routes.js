@@ -18,7 +18,7 @@ export default (
         	<Route path="group/create" component={UserGroupEdit} />
         	<Route path="group/edit/:id" name="UserGroupEdit" component={UserGroupEdit} />
         	<Route path="admin" component={User} />
-        	<Route path="admin/create" component={UserEdit} />
+        	<Route path="admin/create" name="UserCreate" component={UserEdit} />
         </Route>
     </Route>
 )

@@ -3,17 +3,19 @@
  */
 
 import React , { Component , PropTypes } from 'react'
-import { Form, Input, Select, Checkbox, Radio, Button, notification  } from 'antd';
+import { 
+  Form, 
+  Input, 
+  Select, 
+  Checkbox, 
+  Radio, 
+  Button, 
+  notification, 
+  TreeSelect
+   } from 'antd';
 import { Link, browserHistory } from 'react-router'
 import { connect } from 'react-redux'
-import { 
-    startAdd, 
-    startEdit, 
-    addSuccess, 
-    getGroupDetail,
-    resetGroupStatus,
-    startDelete,
-    resetDeleteStatus } from '../../actions/user/group'
+import { getList as getGroupList } from '../../actions/user/group'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -25,7 +27,7 @@ const openNotificationWithIcon = function (type, message) {
     });
 };
 
-class UserGroupEdit extends Component {
+class UserEdit extends Component {
     constructor(props) {
         super(props)
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -33,49 +35,75 @@ class UserGroupEdit extends Component {
  
     handleSubmit(e) { 
       e.preventDefault(); 
-      const { startAdd, route, routeParams, startEdit } = this.props;
+      const {  route } = this.props;
       const fields = this.props.form.getFieldsValue();
-      if(route.name === 'UserGroupEdit'){
-        startEdit(fields,routeParams.id)
-      }else{
-        startAdd(fields);
-      }
+      console.log(fields)
     }
 
     componentDidMount (props) {
-      const { route, routeParams, getGroupDetail } = this.props;
-      if(route.name === 'UserGroupEdit'){
-        getGroupDetail(routeParams.id);
+      const { route, routeParams, getGroupList } = this.props;
+      switch(route.name){
+        case 'UserCreate':
+          getGroupList();
+          break;
+        case 'UserEdit':
+          break;
       }
     }
 
     componentWillReceiveProps(nextProps) {
-      const { route, resetGroupStatus } = this.props;
+      const { route, resetGroupStatus, getList } = this.props;
       if(nextProps.fetch.data){
         if(route.name === 'UserGroupEdit'){
-          openNotificationWithIcon('success','修改成功')
+          //openNotificationWithIcon('success','修改成功')
         }else{
-          openNotificationWithIcon('success','添加成功')
+          //openNotificationWithIcon('success','添加成功')
         }
-        resetGroupStatus();
-        browserHistory.push('/user/group');
+        //resetGroupStatus();
+        //browserHistory.push('/user/group');
       }
+    }
+
+    renderUserGroup() {
+        const { getFieldProps, createControl } = this.props.form;
+        const { groupList } = this.props;
+        const options = groupList.map(item => (<Option key={item._id} value={item._id}>{item.name}</Option>))
+
+        return (
+            <Select id="control-select" {...getFieldProps('group')} 
+              showSearch
+              style={{ width: 200 }}
+              placeholder="请选择人员用户组"
+              optionFilterProp="children"
+              notFoundContent="无法找到"
+              searchPlaceholder="输入关键词">
+              {options}
+            </Select>
+        )
     }
 
     render() {
         const { getFieldProps } = this.props.form;
-        const { fetch, detailFetch } = this.props;
+        const { fetch } = this.props;
 
-
+        const { groupList } = this.props;
+        const options = groupList.map(item => (<Option key={item._id} value={item._id}>{item.name}</Option>))
 
         return (
              <Form horizontal onSubmit={this.handleSubmit}>
               <FormItem
                 id="control-input"
-                label="输入用户组名称："
+                label="输入用户名："
                 labelCol={{ span: 6 }}
                 wrapperCol={{ span: 14 }}>
-                <Input id="control-input" {...getFieldProps('name')} defaultValue="hi" placeholder="Please enter..." />
+                <Input id="control-input" {...getFieldProps('name')} placeholder="Please enter..." />
+              </FormItem> 
+              <FormItem
+                id="control-select"
+                label="选择用户组："
+                labelCol={{ span: 6 }}
+                wrapperCol={{ span: 14 }}>
+                {this.renderUserGroup()}
               </FormItem> 
 
               <FormItem wrapperCol={{ span: 16, offset: 8 }} style={{ marginTop: 24 }}>
@@ -90,28 +118,36 @@ class UserGroupEdit extends Component {
 function mapPropsToFields(props){
   
   const { detail } = props;
-  const name = detail.data ? detail.data.name : ''
+  var name;
+  var group;
+  if(detail.data){
+    name = detail.data.name;
+    group = detail.data.group;
+  }
 
   return {
-    name:{value: name}
+    name: {value: name},
+    group: {value: group} 
   }
 }
 
-UserGroupEdit = Form.create({
-  mapPropsToFields
-})(UserGroupEdit);
+function onFieldsChange(props, fields){
+  console.log(fields)
+}
+
+UserEdit = Form.create({
+  mapPropsToFields,
+  onFieldsChange
+})(UserEdit);
 
 function mapStateToProps(state, ownProps){
     return {
-        fetch: state.userGroup.editFetch,
-        detail: state.userGroup.detailFetch
+        groupList: state.userGroup.listFetch.list,
+        fetch: {isFetching:false},
+        detail: {}
     }
 }
 
 export default connect(mapStateToProps,{
-  startAdd,
-  addSuccess,
-  getGroupDetail,
-  startEdit,
-  resetGroupStatus
-})(UserGroupEdit)
+  getGroupList
+})(UserEdit)

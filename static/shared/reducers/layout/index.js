@@ -6,7 +6,7 @@ const urls = {
             current:'1',
             openKeys:['sub1']
         },
-        '/user/':{
+        '/user/admin':{
             current:'2',
             openKeys:['sub1', '2']
         }

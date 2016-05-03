@@ -27,7 +27,6 @@ class UserPage extends Component {
 }
 
 function mapStateToProps(state, ownProps){
-    console.log(state)
 
     return {
         userList:state.setUserName.userList

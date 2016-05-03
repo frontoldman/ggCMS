@@ -43,7 +43,7 @@ class NavBar extends Component {
                     {
                         key:"2",
                         title:"用户管理",
-                        url:"/user/"
+                        url:"/user/admin"
                     }
                 ],
                 children:[
