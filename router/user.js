@@ -50,4 +50,11 @@ router.post('/admin',function *(next){
 	this.body = user;
 })
 
+router.get('/admin', function *(next){
+	var userList = yield User
+						.find()
+						.populate('group')
+	this.body = userList;
+})
+
 module.exports = router
