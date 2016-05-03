@@ -15,7 +15,7 @@ router.post('/group',function *(next){
 
 //获取userGroup列表
 router.get('/group',function *(next){
-	var userGroupList = yield UserGroup.find();
+	var userGroupList = yield UserGroup.find().populate('users')
 	this.body = userGroupList;
 })
 
@@ -54,9 +54,12 @@ router.post('/admin',function *(next){
 		password: passwordHashed
 	})
 
+	var group = yield UserGroup.update({_id:body.group}, {'$addToSet': {users: user._id}})
+
 	this.body = user;
 })
 
+//查询所有用户
 router.get('/admin', function *(next){
 	var userList = yield User
 						.find()
@@ -64,6 +67,7 @@ router.get('/admin', function *(next){
 	this.body = userList;
 })
 
+//删除单个用户
 router.delete('/admin/:id', function *(next){
 	var user = yield User.remove({_id: this.params.id})
 	this.body = user;
