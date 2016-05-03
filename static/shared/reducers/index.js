@@ -8,24 +8,12 @@ import { combineReducers } from 'redux'
 
 import layout from './layout/'
 import userGroup from './user/group'
-
-function setUserName(state = {userList:[]},action){
-    switch(action.type){
-        case USERNAME_CHANGE:
-            return {
-                userList : [...state.userList,action.username]
-            }
-            break;
-    }
-    return state;
-}
-
-
+import user from './user/user'
 
 const rootReducer = combineReducers({
     layout,
     userGroup,
-    setUserName,
+    user,
     routing
 })
 

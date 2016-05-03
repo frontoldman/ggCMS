@@ -41,7 +41,13 @@ router.delete('/group/:id',function *(next){
 
 //增加单个用户
 router.post('/admin',function *(next){
+	var body = this.request.body;
+	var user = yield User.create({
+		name: body.name,
+		group: body.group
+	})
 
+	this.body = user;
 })
 
 module.exports = router

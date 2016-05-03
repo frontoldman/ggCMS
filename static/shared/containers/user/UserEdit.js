@@ -12,10 +12,11 @@ import {
   Button, 
   notification, 
   TreeSelect
-   } from 'antd';
+} from 'antd';
 import { Link, browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { getList as getGroupList } from '../../actions/user/group'
+import { startAdd } from '../../actions/user/user'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -35,9 +36,9 @@ class UserEdit extends Component {
  
     handleSubmit(e) { 
       e.preventDefault(); 
-      const {  route } = this.props;
+      const { route, startAdd } = this.props;
       const fields = this.props.form.getFieldsValue();
-      console.log(fields)
+      startAdd(fields)
     }
 
     componentDidMount (props) {
@@ -54,11 +55,15 @@ class UserEdit extends Component {
     componentWillReceiveProps(nextProps) {
       const { route, resetGroupStatus, getList } = this.props;
       if(nextProps.fetch.data){
-        if(route.name === 'UserGroupEdit'){
-          //openNotificationWithIcon('success','修改成功')
-        }else{
-          //openNotificationWithIcon('success','添加成功')
+        switch(route.name){
+          case 'UserCreate':
+            openNotificationWithIcon('success','添加成功')
+            break;
+          case 'UserEdit':
+            openNotificationWithIcon('success','修改成功')
+            break;
         }
+     
         //resetGroupStatus();
         //browserHistory.push('/user/group');
       }
@@ -85,10 +90,7 @@ class UserEdit extends Component {
     render() {
         const { getFieldProps } = this.props.form;
         const { fetch } = this.props;
-
-        const { groupList } = this.props;
-        const options = groupList.map(item => (<Option key={item._id} value={item._id}>{item.name}</Option>))
-
+        
         return (
              <Form horizontal onSubmit={this.handleSubmit}>
               <FormItem
@@ -136,18 +138,20 @@ function onFieldsChange(props, fields){
 }
 
 UserEdit = Form.create({
-  mapPropsToFields,
-  onFieldsChange
+  mapPropsToFields
 })(UserEdit);
 
 function mapStateToProps(state, ownProps){
+    console.log(state)
+
     return {
         groupList: state.userGroup.listFetch.list,
-        fetch: {isFetching:false},
+        fetch: state.user.editFetch,
         detail: {}
     }
 }
 
 export default connect(mapStateToProps,{
-  getGroupList
+  getGroupList,
+  startAdd
 })(UserEdit)
