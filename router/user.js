@@ -1,4 +1,5 @@
 var router = require('koa-router')();
+var crypto = require('crypto');
 var UserGroup = require('../model/UserGroup');
 var User = require('../model/User');
 
@@ -42,9 +43,15 @@ router.delete('/group/:id',function *(next){
 //增加单个用户
 router.post('/admin',function *(next){
 	var body = this.request.body;
+
+	//默认密码
+	var defaultPassword = '1';
+	var passwordHashed = crypto.createHash('md5').update(defaultPassword).digest('hex')
+
 	var user = yield User.create({
 		name: body.name,
-		group: body.group
+		group: body.group,
+		password: passwordHashed
 	})
 
 	this.body = user;
@@ -55,6 +62,11 @@ router.get('/admin', function *(next){
 						.find()
 						.populate('group')
 	this.body = userList;
+})
+
+router.delete('/admin/:id', function *(next){
+	var user = yield User.remove({_id: this.params.id})
+	this.body = user;
 })
 
 module.exports = router

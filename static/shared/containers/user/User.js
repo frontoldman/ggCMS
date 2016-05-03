@@ -7,11 +7,41 @@ import { connect } from 'react-redux'
 import { Table, Button, notification, Popconfirm} from 'antd';
 import { Link, browserHistory } from 'react-router'
 import { timeFormat } from '../../util/timer'
+import { getList, startDelete, resetDeleteStatus } from '../../actions/user/user'
 
+const openNotificationWithIcon = function (type, message) {
+    return notification[type]({
+      message
+    });
+};
 
-class UserPage extends Component { 
+class UserPage extends Component {  
     constructor(props) {
         super(props)
+    }
+
+    componentDidMount() {
+      const { getList } = this.props
+      getList();
+    }
+
+    deleteById(id) {
+      const { startDelete } = this.props;
+      startDelete(id);
+    }
+
+     componentWillReceiveProps(nextProps) {
+      const { resetDeleteStatus, getList } = this.props;
+      switch(nextProps.deleteStatus.deletingStatus){
+        case 0:
+            openNotificationWithIcon('info', '正在删除。。。');
+          break;
+        case 1:
+            openNotificationWithIcon('success', '删除成功');
+            resetDeleteStatus();
+            getList();
+          break;
+      }
     }
 
     render() {
@@ -28,7 +58,11 @@ class UserPage extends Component {
             return <a href={link}>{text}</a>;
           }
         }, {
-          title: '所属用户组'
+          title: '所属用户组',
+          dataIndex: 'group',
+          render(group, item) {
+            return group.name
+          }
         },{
           title: '创建人',
         }, {
@@ -45,7 +79,7 @@ class UserPage extends Component {
               <div>
                 <Button onClick={() => browserHistory.push(editLink)} type="primary">编辑</Button>
                 &nbsp;&nbsp;
-                <Popconfirm title="确定要删除这个用户组吗？" onConfirm={() => self.deleteById(item._id)}>
+                <Popconfirm title="确定要删除这个用户吗？" onConfirm={() => self.deleteById(item._id)}>
                       <Button type="primary" style={{backgroundColor:'red',borderColor:'red'}}>删除</Button>
                 </Popconfirm>
               </div>
@@ -66,7 +100,7 @@ class UserPage extends Component {
 
         return ( 
             <div>
-                <Button onClick={() => browserHistory.push('/user/admin/create')} type="primary" size="large">添加用户组</Button>
+                <Button onClick={() => browserHistory.push('/user/admin/create')} type="primary" size="large">添加用户</Button>
                 <br />
                 <br />
                 <Table columns={columns} dataSource={userList} pagination={pagination} />
@@ -77,10 +111,13 @@ class UserPage extends Component {
 
 function mapStateToProps(state, ownProps){
     return {
-        userList: []
+        userList: state.user.listFetch.list,
+        deleteStatus: state.user.deleteFetch
     }
 }
 
 export default connect(mapStateToProps, {
-    
+    getList,
+    startDelete,
+    resetDeleteStatus
 })(UserPage)
