@@ -48,6 +48,8 @@ router.post('/admin',function *(next){
 	var defaultPassword = '1';
 	var passwordHashed = crypto.createHash('md5').update(defaultPassword).digest('hex')
 
+
+
 	var user = yield User.create({
 		name: body.name,
 		group: body.group,
@@ -62,14 +64,39 @@ router.post('/admin',function *(next){
 //查询所有用户
 router.get('/admin', function *(next){
 	var userList = yield User
-						.find()
-						.populate('group')
+	.find()
+	.populate('group')
 	this.body = userList;
 })
 
 //删除单个用户
 router.delete('/admin/:id', function *(next){
 	var user = yield User.remove({_id: this.params.id})
+	this.body = user;
+})
+
+//查找单个用户
+router.get('/admin/:id', function *(next){
+	var user = yield User.findOne({_id: this.params.id})
+	this.body = user;
+})
+
+router.put('/admin/:id', function *(next){
+	var body = this.request.body;
+	var user = yield User.findOne({_id: this.params.id})
+
+	//删掉已存在UserGroup中的user id
+	var userGroup = yield UserGroup.update({_id: user.group},{
+		'$pull': {users: user._id}
+	})
+
+	//存储user
+	user.name = body.name;
+	user.group = body.group;
+	user.updateTime = new Date();
+	yield user.save();
+
+	var group = yield UserGroup.update({_id:body.group}, {'$addToSet': {users: user._id}})
 	this.body = user;
 })
 

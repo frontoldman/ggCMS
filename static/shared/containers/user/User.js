@@ -74,7 +74,7 @@ class UserPage extends Component {
         },{
           title:'操作',
           render(text,item) {
-            const editLink = `/user/group/edit/${item._id}`; 
+            const editLink = `/user/admin/edit/${item._id}`; 
             return (
               <div>
                 <Button onClick={() => browserHistory.push(editLink)} type="primary">编辑</Button>

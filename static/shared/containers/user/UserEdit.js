@@ -16,7 +16,7 @@ import {
 import { Link, browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { getList as getGroupList } from '../../actions/user/group'
-import { startAdd } from '../../actions/user/user'
+import { startAdd, resetUserStatus, getUserDetail, startEdit } from '../../actions/user/user'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -36,24 +36,38 @@ class UserEdit extends Component {
  
     handleSubmit(e) { 
       e.preventDefault(); 
-      const { route, startAdd } = this.props;
+      const { route, startAdd, startEdit, routeParams } = this.props;
       const fields = this.props.form.getFieldsValue();
-      startAdd(fields)
+
+      switch(route.name){
+        case 'UserCreate':
+          startAdd(fields)
+        break;
+        case 'UserEdit':
+          startEdit(fields, routeParams.id)
+        break;
+      }
+      
     }
 
     componentDidMount (props) {
-      const { route, routeParams, getGroupList } = this.props;
+      const { route, routeParams, getGroupList, getUserDetail } = this.props;
       switch(route.name){
         case 'UserCreate':
           getGroupList();
           break;
         case 'UserEdit':
+          getGroupList();
+          getUserDetail(routeParams.id);
           break;
       }
     }
 
     componentWillReceiveProps(nextProps) {
-      const { route, resetGroupStatus, getList } = this.props;
+      const { route, resetUserStatus, getList } = this.props;
+
+      //console.log(nextProps)
+
       if(nextProps.fetch.data){
         switch(route.name){
           case 'UserCreate':
@@ -64,8 +78,8 @@ class UserEdit extends Component {
             break;
         }
      
-        //resetGroupStatus();
-        //browserHistory.push('/user/group');
+        resetUserStatus();
+        browserHistory.push('/user/admin');
       }
     }
 
@@ -90,7 +104,7 @@ class UserEdit extends Component {
     render() {
         const { getFieldProps } = this.props.form;
         const { fetch } = this.props;
-        
+
         return (
              <Form horizontal onSubmit={this.handleSubmit}>
               <FormItem
@@ -147,11 +161,14 @@ function mapStateToProps(state, ownProps){
     return {
         groupList: state.userGroup.listFetch.list,
         fetch: state.user.editFetch,
-        detail: {}
+        detail: state.user.detailFetch
     }
 }
 
 export default connect(mapStateToProps,{
   getGroupList,
-  startAdd
+  startAdd,
+  resetUserStatus,
+  getUserDetail,
+  startEdit
 })(UserEdit)

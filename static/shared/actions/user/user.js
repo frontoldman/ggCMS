@@ -1,6 +1,9 @@
 export const USER_START_ADD = 'USER_START_ADD'
+export const USER_START_EDIT = 'USER_START_EDIT'
 export const USER_ADD_SUCCESS = 'USER_ADD_SUCCESS'
+export const USER_STATUS_RESET = 'USER_STATUS_RESET'
 export const USER_LIST_GET = 'USER_LIST_GET'
+export const USER_DETAIL = 'USER_DETAIL'
 export const USER_DELETE_START = 'USER_DELETE_START'
 export const USER_DELETE_SUCCESS = 'USER_DELETE_SUCCESS'
 export const USER_DELETE_RESET = 'USER_DELETE_RESET'
@@ -52,6 +55,35 @@ export function resetDeleteStatus(){
 	})
 }
 
+export function resetUserStatus(){
+	return dispatch => dispatch({
+		type: USER_STATUS_RESET
+	})
+}
+
+export function getUserDetail(id){
+	return dispatch => {
+		getUserById(id)
+		.then(data => dispatch({
+			type: USER_DETAIL,
+			data
+		}))
+	}
+}
+
+export function startEdit(fields, id){
+	return dispatch => {
+		dispatch({
+			type: USER_START_EDIT
+		})
+		updateUserById(fields, id)
+		.then(data => dispatch({
+			type: USER_ADD_SUCCESS,
+			data
+		}))
+	}
+}
+
 //具体的异步操作如下
 //添加用户
 function addUser(fields){
@@ -75,6 +107,24 @@ function getUserList(){
 function deleteUserById(id){
 	return fetch(`/api/user/admin/${id}`,{
 		method: 'delete'
+	})
+	.then(response => response.json())
+}
+
+//获取单个用户
+function getUserById(id){
+	return fetch(`/api/user/admin/${id}`)
+	.then(response => response.json())
+}
+
+//修改单个用户
+function updateUserById(fields, id){
+	return fetch(`/api/user/admin/${id}`,{
+		method: 'PUT',
+		headers: {
+	      "Content-Type": "application/x-www-form-urlencoded"
+	    },
+	    body:`name=${fields.name}&group=${fields.group}`
 	})
 	.then(response => response.json())
 }
