@@ -5,6 +5,7 @@
 import React from 'react'
 import { Route } from 'react-router'
 import App from './containers/App'
+import Login from './containers/Login/'
 import User from './containers/user/User'
 import UserEdit from './containers/user/UserEdit'
 import UserGroup from './containers/user/UserGroup'
@@ -13,7 +14,7 @@ import BlogPage from './containers/BlogPage'
 
 export default (
     <Route path="/" component={App}>
-        <Route path="/user" >
+        <Route path="user" >
         	<Route path="group" component={UserGroup} />
         	<Route path="group/create" component={UserGroupEdit} />
         	<Route path="group/edit/:id" name="UserGroupEdit" component={UserGroupEdit} />
@@ -21,6 +22,7 @@ export default (
         	<Route path="admin/create" name="UserCreate" component={UserEdit} />
         	<Route path="admin/edit/:id" name="UserEdit" component={UserEdit} />
         </Route>
+        <Route path="login" name="login" component={Login}/>
     </Route>
 )
 

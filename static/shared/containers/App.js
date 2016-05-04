@@ -6,7 +6,6 @@ import React, { Component , PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browerHistory } from 'react-router'
 import 'antd/lib/index.css';
-import { Row, Col } from 'antd'
 import { Navbar, Content} from './layout/'
 
 class App extends Component {
@@ -14,7 +13,7 @@ class App extends Component {
         super(props);
     }
 
-    render() {
+    renderLayout() {
         const { children, history } = this.props;
         return (
             <div className="ant-layout-aside">
@@ -22,6 +21,25 @@ class App extends Component {
                 <Content children={children}/>
             </div>
         )
+    }
+
+    renderLogin() {
+        const { children, history } = this.props;
+        return (
+            <div>{children}</div>
+        )
+    }
+
+    render() {
+        const { location } = this.props;
+
+        switch(location.pathname){
+            case '/login':
+            return this.renderLogin();
+            break;
+        }
+
+        return this.renderLayout();
     }
 }
 
