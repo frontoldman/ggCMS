@@ -11,4 +11,6 @@ var UserGroupSchema = new Schema({
 
 var UserGroup = mongoose.model("UserGroup",UserGroupSchema);
 
+
+
 module.exports = UserGroup

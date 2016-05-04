@@ -56,7 +56,7 @@ router.post('/admin',function *(next){
 		password: passwordHashed
 	})
 
-	var group = yield UserGroup.update({_id:body.group}, {'$addToSet': {users: user._id}})
+	//var group = yield UserGroup.update({_id:body.group}, {'$addToSet': {users: user._id}})
 
 	this.body = user;
 })
@@ -86,9 +86,9 @@ router.put('/admin/:id', function *(next){
 	var user = yield User.findOne({_id: this.params.id})
 
 	//删掉已存在UserGroup中的user id
-	var userGroup = yield UserGroup.update({_id: user.group},{
-		'$pull': {users: user._id}
-	})
+	// var userGroup = yield UserGroup.update({_id: user.group},{
+	// 	'$pull': {users: user._id}
+	// })
 
 	//存储user
 	user.name = body.name;
