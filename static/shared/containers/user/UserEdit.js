@@ -156,7 +156,6 @@ UserEdit = Form.create({
 })(UserEdit);
 
 function mapStateToProps(state, ownProps){
-    console.log(state)
 
     return {
         groupList: state.userGroup.listFetch.list,

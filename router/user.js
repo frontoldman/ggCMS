@@ -36,7 +36,8 @@ router.put('/group/:id',function *(next){
 
 //删除单个用户组信息
 router.delete('/group/:id',function *(next){
-	var userGroup = yield UserGroup.remove({_id: this.params.id});
+	var userGroup = yield UserGroup.findOneAndRemove({_id: this.params.id});
+	
 	this.body = userGroup
 })
 
@@ -48,15 +49,17 @@ router.post('/admin',function *(next){
 	var defaultPassword = '1';
 	var passwordHashed = crypto.createHash('md5').update(defaultPassword).digest('hex')
 
-
-
 	var user = yield User.create({
 		name: body.name,
 		group: body.group,
 		password: passwordHashed
 	})
 
-	//var group = yield UserGroup.update({_id:body.group}, {'$addToSet': {users: user._id}})
+	var userGroup = yield UserGroup
+	.update(
+		{_id: body.group}, 
+		{'$addToSet': {users: user._id}}
+	)
 
 	this.body = user;
 })
@@ -71,7 +74,10 @@ router.get('/admin', function *(next){
 
 //删除单个用户
 router.delete('/admin/:id', function *(next){
-	var user = yield User.remove({_id: this.params.id})
+	var user = yield User.findOneAndRemove({_id: this.params.id})
+	var userGroup = yield UserGroup.update({_id: user.group},{
+		'$pull': {users: user._id}
+	})
 	this.body = user;
 })
 
@@ -86,9 +92,9 @@ router.put('/admin/:id', function *(next){
 	var user = yield User.findOne({_id: this.params.id})
 
 	//删掉已存在UserGroup中的user id
-	// var userGroup = yield UserGroup.update({_id: user.group},{
-	// 	'$pull': {users: user._id}
-	// })
+	var userGroup = yield UserGroup.update({_id: user.group},{
+		'$pull': {users: user._id}
+	})
 
 	//存储user
 	user.name = body.name;

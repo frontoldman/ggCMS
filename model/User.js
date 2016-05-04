@@ -10,14 +10,29 @@ var UserSchema = new Schema({
 	updateTime: { type: Date, default: Date.now }
 })
 
-UserSchema.post('save', function(doc, next){
-	UserGroup
-	.update(
-		{_id:doc.group}, 
-		{'$addToSet': {users: doc._id}}
-	)
-	.then(() => next())
-})
+// UserSchema.post('save', function(doc, next){
+// 	UserGroup
+// 	.update(
+// 		{_id:doc.group}, 
+// 		{'$addToSet': {users: doc._id}}
+// 	)
+// 	.then(() => next())
+// })
+
+// UserSchema.post('remove', function(doc, next){
+// 	console.log(doc)
+// 	next();
+// })
+
+// UserSchema.pre('remove', function(next){
+// 	console.log(arguments)
+// 	next();
+// })
+
+// UserSchema.post('update', function(doc, next){
+// 	console.log(doc);
+// 	next();
+// })
 
 var User = mongoose.model("User",UserSchema);
 
