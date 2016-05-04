@@ -8,7 +8,10 @@ import {
 	USER_DETAIL,
 	USER_DELETE_START,
 	USER_DELETE_SUCCESS,
-	USER_DELETE_RESET } from '../../actions/user/user'
+	USER_DELETE_RESET,
+	USER_LOGIN_START,
+	USER_LOGIN_SUCCESS,
+	USER_LOGIN_FAIL } from '../../actions/user/user'
 
 function editFetch(state = {isFetching: false, data: null}, action){
 	switch(action.type){
@@ -57,9 +60,23 @@ function detailFetch(state = {data: null }, action){
 	return state;
 }
 
+function LoginFetch(state = {isFetching: false, loginStatus: 0}, action){
+	switch(action.type){
+		case USER_LOGIN_START:
+			return {...state, isFetching: true}
+		case USER_LOGIN_SUCCESS:
+			return {isFetching: false, loginStatus: 1}
+		case USER_LOGIN_FAIL:
+			return {isFetching: false, loginStatus: -1}
+	}
+
+	return state
+}
+
 export default combineReducers({
     editFetch,
     listFetch,
     deleteFetch,
-    detailFetch
+    detailFetch,
+    LoginFetch
 })

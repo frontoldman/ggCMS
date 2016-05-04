@@ -37,7 +37,7 @@ router.put('/group/:id',function *(next){
 //删除单个用户组信息
 router.delete('/group/:id',function *(next){
 	var userGroup = yield UserGroup.findOneAndRemove({_id: this.params.id});
-	
+
 	this.body = userGroup
 })
 
@@ -103,6 +103,14 @@ router.put('/admin/:id', function *(next){
 	yield user.save();
 
 	var group = yield UserGroup.update({_id:body.group}, {'$addToSet': {users: user._id}})
+	this.body = user;
+})
+
+router.post('/login', function *(next){
+	var body = this.request.body;
+	var password = crypto.createHash('md5').update(body.password).digest('hex')
+	var user = yield User.findOne({name: body.name,password})
+
 	this.body = user;
 })
 

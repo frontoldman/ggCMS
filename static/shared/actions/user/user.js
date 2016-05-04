@@ -7,6 +7,9 @@ export const USER_DETAIL = 'USER_DETAIL'
 export const USER_DELETE_START = 'USER_DELETE_START'
 export const USER_DELETE_SUCCESS = 'USER_DELETE_SUCCESS'
 export const USER_DELETE_RESET = 'USER_DELETE_RESET'
+export const USER_LOGIN_START = 'USER_LOGIN_START'
+export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS'
+export const USER_LOGIN_FAIL = 'USER_LOGIN_FAIL'
 
 
 export function startAdd(fields){
@@ -84,6 +87,19 @@ export function startEdit(fields, id){
 	}
 }
 
+export function startLogin(fields){
+	return dispatch => {
+		dispatch({
+			type: USER_LOGIN_START
+		})
+
+		login(fields)
+		.then(data => dispatch({
+			type: USER_LOGIN_SUCCESS
+		}))
+	}
+}
+
 //具体的异步操作如下
 //添加用户
 function addUser(fields){
@@ -125,6 +141,18 @@ function updateUserById(fields, id){
 	      "Content-Type": "application/x-www-form-urlencoded"
 	    },
 	    body:`name=${fields.name}&group=${fields.group}`
+	})
+	.then(response => response.json())
+}
+
+//登陆接口
+function login(fields){
+	return fetch(`/api/user/login`,{
+		method: 'POST',
+		headers: {
+	      "Content-Type": "application/x-www-form-urlencoded"
+	    },
+	    body:`name=${fields.name}&password=${fields.password}&agreement=${agreement}`
 	})
 	.then(response => response.json())
 }
