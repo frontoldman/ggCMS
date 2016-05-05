@@ -5,13 +5,21 @@
 var fs = require('fs')
 var koa = require('koa')
 var bodyParser = require('koa-bodyparser');
+var logger = require('koa-logger');
+var favicon = require('koa-favicon');
 var config = require('./config')
 var router = require('./router/')
 
 var app = koa();
 
+//cookie签名
+app.keys = ['gg', 'fat gg'];
+
 //中间件集合
+app.use(logger())
+app.use(favicon(__dirname + '/static/favicon.ico'))
 app.use(bodyParser());
+
 
 app.use(router.routes())
 
@@ -33,6 +41,10 @@ app.use(function *(next){
         }
         this.type = 'text/html; charset=utf-8';
     }
+})
+
+app.on('error', function(err, ctx){
+    console.error('system err: ', err, ctx);
 })
 
 var server = function(fn){

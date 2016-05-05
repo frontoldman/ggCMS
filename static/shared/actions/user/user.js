@@ -11,6 +11,7 @@ export const USER_LOGIN_START = 'USER_LOGIN_START'
 export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS'
 export const USER_LOGIN_FAIL = 'USER_LOGIN_FAIL'
 
+const fetchConfig = {credentials: 'include'}
 
 export function startAdd(fields){
 	return dispatch => {
@@ -104,6 +105,7 @@ export function startLogin(fields){
 //添加用户
 function addUser(fields){
 	return fetch('/api/user/admin',{ 
+			...fetchConfig,
 		    method:'POST',
 		    headers: {
 		      "Content-Type": "application/x-www-form-urlencoded"
@@ -115,13 +117,14 @@ function addUser(fields){
 
 //获取用户列表
 function getUserList(){
-	return fetch('/api/user/admin')
+	return fetch('/api/user/admin',{...fetchConfig})
 		.then(response => response.json())
 }
 
 //删除单个用户
 function deleteUserById(id){
 	return fetch(`/api/user/admin/${id}`,{
+		...fetchConfig,
 		method: 'delete'
 	})
 	.then(response => response.json())
@@ -129,13 +132,14 @@ function deleteUserById(id){
 
 //获取单个用户
 function getUserById(id){
-	return fetch(`/api/user/admin/${id}`)
+	return fetch(`/api/user/admin/${id}`,{...fetchConfig})
 	.then(response => response.json())
 }
 
 //修改单个用户
 function updateUserById(fields, id){
 	return fetch(`/api/user/admin/${id}`,{
+		...fetchConfig,
 		method: 'PUT',
 		headers: {
 	      "Content-Type": "application/x-www-form-urlencoded"
@@ -148,6 +152,7 @@ function updateUserById(fields, id){
 //登陆接口
 function login(fields){
 	return fetch(`/api/user/login`,{
+		...fetchConfig,
 		method: 'POST',
 		headers: {
 	      "Content-Type": "application/x-www-form-urlencoded"
