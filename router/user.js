@@ -1,5 +1,6 @@
 var router = require('koa-router')();
 var crypto = require('crypto');
+var util = require('../util/index');
 var UserGroup = require('../model/UserGroup');
 var User = require('../model/User');
 
@@ -111,16 +112,10 @@ router.post('/login', function *(next){
 	var password = crypto.createHash('md5').update(body.password).digest('hex')
 	var user = yield User.findOne({name: body.name,password})
 
-	var userId = this.cookies.get('userId',{
-		signed: true
-	})
-	console.log(userId)
-
 	if(user){
 		this.cookies.set('userId', user._id, { 
-			signed: true,
-			expires: new Date('2088-10-10'),
-			httpOnly: false
+			signed: false,
+			expires: util.getDate(7)
 		});
 		this.body = user;
 	}else{
@@ -129,5 +124,6 @@ router.post('/login', function *(next){
 	}
 	
 })
+
 
 module.exports = router
