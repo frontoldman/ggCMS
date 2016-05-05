@@ -110,7 +110,7 @@ function addUser(fields){
 		    headers: {
 		      "Content-Type": "application/x-www-form-urlencoded"
 		    },
-		    body:`name=${fields.name}&group=${fields.group}`
+		    body:`username=${fields.username}&nickname=${fields.nickname}&group=${fields.group}`
 		  })
 		  .then(response => response.json())
 }
@@ -144,7 +144,7 @@ function updateUserById(fields, id){
 		headers: {
 	      "Content-Type": "application/x-www-form-urlencoded"
 	    },
-	    body:`name=${fields.name}&group=${fields.group}`
+	    body:`username=${fields.username}&nickname=${fields.nickname}&group=${fields.group}`
 	})
 	.then(response => response.json())
 }

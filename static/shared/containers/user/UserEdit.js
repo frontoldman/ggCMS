@@ -109,10 +109,17 @@ class UserEdit extends Component {
              <Form horizontal onSubmit={this.handleSubmit}>
               <FormItem
                 id="control-input"
-                label="输入用户名："
+                label="输入登陆名："
                 labelCol={{ span: 6 }}
                 wrapperCol={{ span: 14 }}>
-                <Input id="control-input" {...getFieldProps('name')} placeholder="Please enter..." />
+                <Input id="control-input" {...getFieldProps('username')} placeholder="Please enter..." />
+              </FormItem> 
+              <FormItem
+                id="control-input"
+                label="输入昵称："
+                labelCol={{ span: 6 }}
+                wrapperCol={{ span: 14 }}>
+                <Input id="control-input" {...getFieldProps('nickname')} placeholder="Please enter..." />
               </FormItem> 
               <FormItem
                 id="control-select"
@@ -134,16 +141,19 @@ class UserEdit extends Component {
 function mapPropsToFields(props){
   
   const { detail } = props;
-  var name;
+  var username;
   var group;
+  var nickname;
   if(detail.data){
-    name = detail.data.name;
+    username = detail.data.username;
+    nickname = detail.data.nickname;
     group = detail.data.group;
   }
 
   return {
-    name: {value: name},
-    group: {value: group} 
+    username: {value: username},
+    group: {value: group},
+    nickname: {value: nickname}
   }
 }
 

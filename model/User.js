@@ -3,8 +3,8 @@ var Schema = mongoose.Schema;
 var UserGroup = require('./UserGroup')
 
 var UserSchema = new Schema({
-	name: String,
-	
+	username: String,
+	nickname: String,
 	password: String,
 	group: { type: Schema.Types.ObjectId, ref: 'UserGroup' },
 	createTime: { type: Date, default: Date.now },

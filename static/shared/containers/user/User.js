@@ -51,11 +51,17 @@ class UserPage extends Component {
         userList.forEach(item => item.key = item._id)
 
         const columns = [{
-          title: '用户昵称',
-          dataIndex: 'name',
+          title: '登陆名',
+          dataIndex: 'username',
           render(text, item) {
             const link = `/user/group/${item._id}`
             return <a href={link}>{text}</a>;
+          }
+        },{
+          title: '用户昵称',
+          dataIndex: 'nickname',
+          render(text, item) {
+            return text;
           }
         }, {
           title: '所属用户组',

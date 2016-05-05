@@ -51,7 +51,8 @@ router.post('/admin',function *(next){
 	var passwordHashed = crypto.createHash('md5').update(defaultPassword).digest('hex')
 
 	var user = yield User.create({
-		name: body.name,
+		username: body.username,
+		nickname: body.nickname,
 		group: body.group,
 		password: passwordHashed
 	})
@@ -110,7 +111,7 @@ router.put('/admin/:id', function *(next){
 router.post('/login', function *(next){
 	var body = this.request.body;
 	var password = crypto.createHash('md5').update(body.password).digest('hex')
-	var user = yield User.findOne({name: body.name,password})
+	var user = yield User.findOne({username: body.name,password})
 
 	if(user){
 		this.cookies.set('userId', user._id, { 
