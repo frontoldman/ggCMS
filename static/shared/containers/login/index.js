@@ -51,7 +51,7 @@ const RadioGroup = Radio.Group;
 	        <FormItem
 	          {...formItemLayout}
 	          label="用户名：">
-	          <Input type="text" {...getFieldProps('name')} placeholder="请输入账户名称" />
+	          <Input type="text" {...getFieldProps('username')} placeholder="请输入账户名称" />
 	        </FormItem>
 	        <FormItem
 	          {...formItemLayout}

@@ -108,23 +108,7 @@ router.put('/admin/:id', function *(next){
 	this.body = user;
 })
 
-router.post('/login', function *(next){
-	var body = this.request.body;
-	var password = crypto.createHash('md5').update(body.password).digest('hex')
-	var user = yield User.findOne({username: body.name,password})
 
-	if(user){
-		this.cookies.set('userId', user._id, { 
-			signed: false,
-			expires: util.getDate(7)
-		});
-		this.body = user;
-	}else{
-		this.status = 401;
-		this.body = {}
-	}
-	
-})
 
 
 module.exports = router

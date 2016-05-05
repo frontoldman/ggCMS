@@ -151,13 +151,13 @@ function updateUserById(fields, id){
 
 //登陆接口
 function login(fields){
-	return fetch(`/api/user/login`,{
+	return fetch(`/api/login`,{
 		...fetchConfig,
 		method: 'POST',
 		headers: {
 	      "Content-Type": "application/x-www-form-urlencoded"
 	    },
-	    body:`name=${fields.name}&password=${fields.password}&agreement=${agreement}`
+	    body:`username=${fields.username}&password=${fields.password}&agreement=${agreement}`
 	})
 	.then(response => response.json())
 }

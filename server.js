@@ -6,6 +6,8 @@ var fs = require('fs')
 var koa = require('koa')
 var bodyParser = require('koa-bodyparser');
 var logger = require('koa-logger');
+var session = require('koa-session-store');
+var MongooseStore = require('koa-session-mongoose');
 var favicon = require('koa-favicon');
 var config = require('./config')
 var router = require('./router/')
@@ -18,6 +20,9 @@ app.keys = ['gg', 'fat gg'];
 //中间件集合
 app.use(logger())
 app.use(favicon(__dirname + '/static/favicon.ico'))
+app.use(session({
+  store: new MongooseStore()
+}));
 app.use(bodyParser());
 
 
@@ -44,7 +49,7 @@ app.use(function *(next){
 })
 
 app.on('error', function(err, ctx){
-    console.error('system err: ', err, ctx);
+    console.error('system err: ', err);
 })
 
 var server = function(fn){
