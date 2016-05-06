@@ -8,7 +8,8 @@ var User = require('../model/User');
 router.post('/group',function *(next){
 	var body = this.request.body;
 	var userGroup = yield UserGroup.create({
-		name: body.name
+		name: body.name,
+		creater: this.session.user._id
 	})
 	
 	this.body = {code:1000};
@@ -16,7 +17,10 @@ router.post('/group',function *(next){
 
 //获取userGroup列表
 router.get('/group',function *(next){
-	var userGroupList = yield UserGroup.find().populate('users')
+	var userGroupList = yield UserGroup
+	.find()
+	.populate('creater', 'nickname')
+
 	this.body = userGroupList;
 })
 
@@ -70,7 +74,8 @@ router.post('/admin',function *(next){
 router.get('/admin', function *(next){
 	var userList = yield User
 	.find()
-	.populate('group')
+	.populate('creater', 'nickname')
+	.populate('group', 'name')
 	this.body = userList;
 })
 

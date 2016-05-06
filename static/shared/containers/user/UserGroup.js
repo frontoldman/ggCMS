@@ -67,8 +67,12 @@ class UserGroup extends Component {
             const link = `/user/group/${item._id}`
             return <a href={link}>{text}</a>;
           }
-        }, {
+        },{
           title: '创建人',
+          dataIndex: 'creater',
+          render(creater, item) {
+            return creater.nickname
+          }
         }, {
           title: '创建时间',
           dataIndex: 'createTime',

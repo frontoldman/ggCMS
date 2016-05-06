@@ -71,6 +71,10 @@ class UserPage extends Component {
           }
         },{
           title: '创建人',
+          dataIndex: 'creater',
+          render(creater, item) {
+            return creater.nickname
+          }
         }, {
           title: '创建时间',
           dataIndex: 'createTime',
