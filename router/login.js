@@ -22,4 +22,13 @@ router.post('/login', function *(next){
 	
 })
 
+router.get('/logout', function *(next){
+	this.cookies.set('userId', 0, { 
+		signed: false,
+		expires: util.getDate(-1)
+	});
+	delete this.session.user;
+	this.body = {}
+})
+
 module.exports = router

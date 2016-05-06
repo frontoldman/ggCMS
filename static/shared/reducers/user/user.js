@@ -11,7 +11,8 @@ import {
 	USER_DELETE_RESET,
 	USER_LOGIN_START,
 	USER_LOGIN_SUCCESS,
-	USER_LOGIN_FAIL } from '../../actions/user/user'
+	USER_LOGIN_FAIL,
+	USER_LOG_OUT } from '../../actions/user/user'
 
 function editFetch(state = {isFetching: false, data: null}, action){
 	switch(action.type){
@@ -33,7 +34,7 @@ function listFetch(state = {list: []}, action){
 			return {list: action.data}
 			break;
 	}
-	
+
 	return state;
 }
 
@@ -68,6 +69,8 @@ function LoginFetch(state = {isFetching: false, loginStatus: 0, data: null}, act
 			return {isFetching: false, loginStatus: 1, data: action.data}
 		case USER_LOGIN_FAIL:
 			return {isFetching: false, loginStatus: -1, data: null}
+		case USER_LOG_OUT:
+			return {isFetching: false, loginStatus: 0, data: null }
 	}
 
 	return state

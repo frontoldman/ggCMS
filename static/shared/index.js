@@ -19,7 +19,7 @@ const LoginFetch = dataInit ?
 		: 
 		{
 			isFetching: false,
-			loginStatus: 0,
+			loginStatus: -1,
 			data: null
 		}
 

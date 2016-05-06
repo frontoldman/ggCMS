@@ -13,8 +13,9 @@ class App extends Component {
         super(props);
     }
 
-    componentWillMount() {
-        const { user, location } = this.props;
+    componentWillReceiveProps(nextProps) {
+        const { location } = this.props;
+        const { user } = nextProps;
 
         if(location.pathname != '/login'){
             if(user.LoginFetch.loginStatus == 0){

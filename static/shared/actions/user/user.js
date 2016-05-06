@@ -13,6 +13,7 @@ export const USER_DELETE_RESET = 'USER_DELETE_RESET'
 export const USER_LOGIN_START = 'USER_LOGIN_START'
 export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS'
 export const USER_LOGIN_FAIL = 'USER_LOGIN_FAIL'
+export const USER_LOG_OUT = 'USER_LOG_OUT'
 
 const fetchConfig = {credentials: 'include'}
 
@@ -107,6 +108,15 @@ export function startLogin(fields){
 	}
 }
 
+export function startLogOut(){
+	return dispatch => {
+		logout()
+		.then(data => dispatch({
+			type: USER_LOG_OUT
+		}))
+	}
+}
+
 //具体的异步操作如下
 //添加用户
 function addUser(fields){
@@ -156,4 +166,8 @@ function login(fields){
 	    },
 	    body:`username=${fields.username}&password=${fields.password}&agreement=${agreement}`
 	})
+}
+
+function logout(){
+	return ggFetch(`/api/logout`)
 }
