@@ -50,8 +50,6 @@ export function getList(){
 	return dispatch => {
 		getUserList()
 		.then(data => {
-			console.log('hahah')
-			console.log(data)
 			return dispatch({
 				type: USER_LIST_GET,
 				data
