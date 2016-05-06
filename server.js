@@ -59,7 +59,7 @@ app.use(function *(next){
         // }
 
         yield this.render('index',{
-            data: this.session.user || {}
+            data: this.session.user || null
         });
     }
 })

@@ -4,13 +4,28 @@
 
 import React, { Component , PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { browerHistory } from 'react-router'
+import { browserHistory } from 'react-router'
 import 'antd/lib/index.css';
 import { Navbar, Content} from './layout/'
 
 class App extends Component {
     constructor(props) {
         super(props);
+    }
+
+    componentWillMount() {
+        const { user, location } = this.props;
+
+        if(location.pathname != '/login'){
+            if(user.LoginFetch.loginStatus == 0){
+                browserHistory.push('/login')
+            }
+        }else{
+            if(user.LoginFetch.loginStatus == 1){
+                browserHistory.push('/user/admin')
+            }
+        }
+
     }
 
     renderLayout() {
@@ -51,9 +66,7 @@ App.propTypes = {
 }
 
 function mapStateToProps(state, ownProps){
-    return {
-        ...state
-    }
+    return {...state}
 }
 
 export default connect(mapStateToProps)(App)

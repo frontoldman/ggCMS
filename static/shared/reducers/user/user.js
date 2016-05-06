@@ -33,7 +33,7 @@ function listFetch(state = {list: []}, action){
 			return {list: action.data}
 			break;
 	}
-
+	
 	return state;
 }
 
