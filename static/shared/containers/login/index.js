@@ -31,7 +31,7 @@ const RadioGroup = Radio.Group;
       switch(LoginFetch.loginStatus){
       	case 1:
       		openNotificationWithIcon('success','登陆成功');
-      		browserHistory.push('/user/group');
+			browserHistory.push('/user/admin')	
       		break;
       	case -1:
       		break;

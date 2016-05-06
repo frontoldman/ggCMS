@@ -25,7 +25,7 @@ class Content extends Component {
 		        <div className="ant-layout-header">
 					<Row>
 					  <Col span="4" offset="19" style={{...avStyle}}>
-					  	{loginFetch.data && loginFetch.data.name}
+					  	{loginFetch.data && loginFetch.data.nickname}
 					  </Col>
 					</Row>
 		        </div>
@@ -43,7 +43,6 @@ class Content extends Component {
 		            </div>
 		          </div>
 		        </div>
-		       
 		     </div>
         )
     }

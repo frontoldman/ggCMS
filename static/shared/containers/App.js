@@ -35,7 +35,7 @@ class App extends Component {
 
         switch(location.pathname){
             case '/login':
-            return this.renderLogin();
+                return this.renderLogin();
             break;
         }
 
