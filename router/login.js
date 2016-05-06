@@ -13,6 +13,7 @@ router.post('/login', function *(next){
 			signed: false,
 			expires: util.getDate(7)
 		});
+		this.session.user = user;
 		this.body = user;
 	}else{
 		this.status = 401;

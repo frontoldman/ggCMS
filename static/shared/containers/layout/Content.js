@@ -13,9 +13,21 @@ export default class Content extends Component {
     render() {
     	const { children } = this.props;
 
+    	const avStyle = {
+    		textAlign: 'right',
+    		paddingTop: '20px',
+    		cursor: 'pointer'
+    	}
+
         return (
               <div className="ant-layout-main">
-		        <div className="ant-layout-header"></div>
+		        <div className="ant-layout-header">
+					<Row>
+					  <Col span="4" offset="19" style={{...avStyle}}>
+					  	
+					  </Col>
+					</Row>
+		        </div>
 		        <div className="ant-layout-breadcrumb">
 		          <Breadcrumb>
 		            <Breadcrumb.Item>首页</Breadcrumb.Item>

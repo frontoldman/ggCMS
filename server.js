@@ -25,7 +25,6 @@ app.use(session({
 }));
 app.use(bodyParser());
 
-
 app.use(router.routes())
 
 app.use(function *(next){
