@@ -5,9 +5,10 @@ module.exports = function *(next){
 	var userId = this.cookies.get('userId'),
 		user ;
 
+	//return authFn();
+
 	if(this.session.user){
-		yield next;
-		return;
+		return yield next;
 	}
 
 	if(userId && (user = yield User.findOne({_id: userId}))){

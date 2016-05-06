@@ -4,14 +4,15 @@
 
 import React, { Component , PropTypes } from 'react'
 import { Row, Col, Breadcrumb } from 'antd'
+import { connect } from 'react-redux'
 
-export default class Content extends Component {
+class Content extends Component {
     constructor(props) {
         super(props);
     }
 
     render() {
-    	const { children } = this.props;
+    	const { children, loginFetch} = this.props;
 
     	const avStyle = {
     		textAlign: 'right',
@@ -24,7 +25,7 @@ export default class Content extends Component {
 		        <div className="ant-layout-header">
 					<Row>
 					  <Col span="4" offset="19" style={{...avStyle}}>
-					  	
+					  	{loginFetch.data && loginFetch.data.name}
 					  </Col>
 					</Row>
 		        </div>
@@ -47,3 +48,11 @@ export default class Content extends Component {
         )
     }
 }
+
+function mapStateToProps(state, ownProps){
+    return {
+        loginFetch: state.user.LoginFetch
+    }
+}
+
+export default connect(mapStateToProps,{})(Content)

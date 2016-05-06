@@ -1,3 +1,6 @@
+import ggFetch from '../../util/fetch'
+
+
 export const USER_START_ADD = 'USER_START_ADD'
 export const USER_START_EDIT = 'USER_START_EDIT'
 export const USER_ADD_SUCCESS = 'USER_ADD_SUCCESS'
@@ -46,10 +49,14 @@ export function startDelete(id){
 export function getList(){
 	return dispatch => {
 		getUserList()
-		.then(data => dispatch({
-			type: USER_LIST_GET,
-			data
-		}))
+		.then(data => {
+			console.log('hahah')
+			console.log(data)
+			return dispatch({
+				type: USER_LIST_GET,
+				data
+			})
+		})
 	}
 }
 
@@ -96,7 +103,8 @@ export function startLogin(fields){
 
 		login(fields)
 		.then(data => dispatch({
-			type: USER_LOGIN_SUCCESS
+			type: USER_LOGIN_SUCCESS,
+			data
 		}))
 	}
 }
@@ -104,60 +112,50 @@ export function startLogin(fields){
 //具体的异步操作如下
 //添加用户
 function addUser(fields){
-	return fetch('/api/user/admin',{ 
-			...fetchConfig,
+	return ggFetch('/api/user/admin',{ 
 		    method:'POST',
 		    headers: {
 		      "Content-Type": "application/x-www-form-urlencoded"
 		    },
 		    body:`username=${fields.username}&nickname=${fields.nickname}&group=${fields.group}`
 		  })
-		  .then(response => response.json())
 }
 
 //获取用户列表
 function getUserList(){
-	return fetch('/api/user/admin',{...fetchConfig})
-		.then(response => response.json())
+	return ggFetch('/api/user/admin')
 }
 
 //删除单个用户
 function deleteUserById(id){
-	return fetch(`/api/user/admin/${id}`,{
-		...fetchConfig,
+	return ggFetch(`/api/user/admin/${id}`,{
 		method: 'delete'
 	})
-	.then(response => response.json())
 }
 
 //获取单个用户
 function getUserById(id){
-	return fetch(`/api/user/admin/${id}`,{...fetchConfig})
-	.then(response => response.json())
+	return ggFetch(`/api/user/admin/${id}`)
 }
 
 //修改单个用户
 function updateUserById(fields, id){
 	return fetch(`/api/user/admin/${id}`,{
-		...fetchConfig,
 		method: 'PUT',
 		headers: {
 	      "Content-Type": "application/x-www-form-urlencoded"
 	    },
 	    body:`username=${fields.username}&nickname=${fields.nickname}&group=${fields.group}`
 	})
-	.then(response => response.json())
 }
 
 //登陆接口
 function login(fields){
-	return fetch(`/api/login`,{
-		...fetchConfig,
+	return ggFetch(`/api/login`,{
 		method: 'POST',
 		headers: {
 	      "Content-Type": "application/x-www-form-urlencoded"
 	    },
 	    body:`username=${fields.username}&password=${fields.password}&agreement=${agreement}`
 	})
-	.then(response => response.json())
 }

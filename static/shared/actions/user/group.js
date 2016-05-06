@@ -1,3 +1,4 @@
+import ggFetch from '../../util/fetch'
 
 export const GROUP_START_ADD = 'GROUP_START_ADD'
 export const GROUP_START_EDIT = 'GROUP_START_EDIT'
@@ -11,48 +12,43 @@ export const GROUP_DELETE_RESET = 'GROUP_DELETE_RESET'
 
 //新增用户组
 function addGroup(fields){
-  return fetch('/api/user/group',{ 
+  return ggFetch('/api/user/group',{ 
     method:'POST',
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
     },
     body:`name=${fields.name}`
   })
-  .then(response => response.json())
 }
 
 //编辑用户组
 function editGroup(fields,id){
-	return fetch(`/api/user/group/${id}`,{ 
-    method:'PUT',
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    body:`name=${fields.name}&id=${id}`
-  })
-  .then(response => response.json())
+	return ggFetch(`/api/user/group/${id}`,{ 
+		    method:'PUT',
+		    headers: {
+		      "Content-Type": "application/x-www-form-urlencoded"
+		    },
+		    body:`name=${fields.name}&id=${id}`
+		  })
 }
 
 //获取用户组列表
 function getGroupList(id){
-	return fetch('/api/user/group',{
+	return ggFetch('/api/user/group',{
 		method: 'GET'
 	})
-  	.then(response => response.json())
 }
 
 //获取单个用户组详细信息
 function getGroupById(id){
-	return fetch(`/api/user/group/${id}`)
-		.then(response => response.json())
+	return ggFetch(`/api/user/group/${id}`)
 }
 
 //删除单个组
 function deleteGroupById(id){
-	return fetch(`/api/user/group/${id}`,{
+	return ggFetch(`/api/user/group/${id}`,{
 		method: 'delete'
 	})
-	.then(response => response.json())
 }
 
 export function startAdd(fields){

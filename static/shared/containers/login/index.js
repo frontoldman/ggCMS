@@ -21,7 +21,6 @@ const RadioGroup = Radio.Group;
     handleSubmit(e) {
     	e.preventDefault(); 
       	const fields = this.props.form.getFieldsValue();
-      	console.log(fields)
 
       	this.props.startLogin(fields)
     }
@@ -31,7 +30,8 @@ const RadioGroup = Radio.Group;
 
       switch(LoginFetch.loginStatus){
       	case 1:
-      		openNotificationWithIcon('success','登陆成功')
+      		openNotificationWithIcon('success','登陆成功');
+      		browserHistory.push('/user/group');
       		break;
       	case -1:
       		break;

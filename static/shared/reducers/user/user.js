@@ -60,14 +60,14 @@ function detailFetch(state = {data: null }, action){
 	return state;
 }
 
-function LoginFetch(state = {isFetching: false, loginStatus: 0}, action){
+function LoginFetch(state = {isFetching: false, loginStatus: 0, data: null}, action){
 	switch(action.type){
 		case USER_LOGIN_START:
 			return {...state, isFetching: true}
 		case USER_LOGIN_SUCCESS:
-			return {isFetching: false, loginStatus: 1}
+			return {isFetching: false, loginStatus: 1, data: action.data}
 		case USER_LOGIN_FAIL:
-			return {isFetching: false, loginStatus: -1}
+			return {isFetching: false, loginStatus: -1, data: null}
 	}
 
 	return state
