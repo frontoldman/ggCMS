@@ -19,7 +19,6 @@ router.post('/login', function *(next){
 		this.status = 401;
 		this.body = {}
 	}
-	
 })
 
 router.get('/logout', function *(next){

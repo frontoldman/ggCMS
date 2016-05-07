@@ -10,7 +10,7 @@ import User from './containers/user/User'
 import UserEdit from './containers/user/UserEdit'
 import UserGroup from './containers/user/UserGroup'
 import UserGroupEdit from './containers/user/UserGroupEdit'
-import BlogPage from './containers/BlogPage'
+import ArticleEdit from './containers/Article/edit'
 
 export default (
     <Route path="/" component={App}>
@@ -21,6 +21,9 @@ export default (
         	<Route path="admin" component={User} />
         	<Route path="admin/create" name="UserCreate" component={UserEdit} />
         	<Route path="admin/edit/:id" name="UserEdit" component={UserEdit} />
+        </Route>
+        <Route path="article">
+        	<Route path="create" name="ArticleCreate" component={ArticleEdit}/>
         </Route>
         <Route path="login" name="login" component={Login}/>
     </Route>
