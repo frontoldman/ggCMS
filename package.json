@@ -24,6 +24,7 @@
   "homepage": "https://github.com/frontoldman/gg#readme",
   "dependencies": {
     "antd": "^0.12.14",
+    "co": "^4.6.0",
     "koa": "^1.2.0",
     "koa-bodyparser": "^2.0.1",
     "koa-ejs": "^3.0.0",
@@ -69,6 +70,7 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-react-hmre": "^1.1.1",
     "babel-preset-stage-0": "^6.5.0",
+    "babel-preset-stage-2": "^6.5.0",
     "babel-register": "^6.7.2",
     "css-loader": "^0.23.1",
     "koa-webpack-dev-middleware": "^1.2.0",
