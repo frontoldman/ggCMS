@@ -5,24 +5,23 @@
 import React, { Component , PropTypes } from 'react'
 import { Link, browserHistory } from 'react-router'
 import { connect } from 'react-redux'
-import { Form, Input, Button, Checkbox, Radio, Tooltip, Icon } from 'antd';
-import openNotificationWithIcon from '../../util/openNotificationWithIcon'
+//import { Form, Input, Button, Checkbox, Radio, Tooltip, Icon } from 'antd';
+//import openNotificationWithIcon from '../../util/openNotificationWithIcon'
 import { startLogin } from '../../actions/user/user'
 
-const FormItem = Form.Item;
-const RadioGroup = Radio.Group;
+//const FormItem = Form.Item;
+//const RadioGroup = Radio.Group;
 
  class Login extends Component {
     constructor(props) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.state = {};
     }
 
     handleSubmit(e) {
     	e.preventDefault(); 
-      	const fields = this.props.form.getFieldsValue();
-
-      	this.props.startLogin(fields)
+      	this.props.startLogin(this.state)
     }
 
     componentWillReceiveProps(nextProps) {
@@ -30,7 +29,7 @@ const RadioGroup = Radio.Group;
 
       switch(LoginFetch.loginStatus){
       	case 1:
-      		openNotificationWithIcon('success','登陆成功');
+      		//openNotificationWithIcon('success','登陆成功');
 			browserHistory.push('/user/admin')	
       		break;
       	case -1:
@@ -39,41 +38,36 @@ const RadioGroup = Radio.Group;
 	}
 
     render() {
-        const { getFieldProps } = this.props.form;
-        const { LoginFetch } = this.props;
-	    const formItemLayout = {
-	      labelCol: { span: 10 },
-	      wrapperCol: { span: 4 },
-	    };
 
 	    return (
-	      <Form horizontal onSubmit={this.handleSubmit} style={{marginTop:200}}>
-	        <FormItem
-	          {...formItemLayout}
-	          label="用户名：">
-	          <Input type="text" {...getFieldProps('username')} placeholder="请输入账户名称" />
-	        </FormItem>
-	        <FormItem
-	          {...formItemLayout}
-	          label="密码：">
-	          <Input type="password" {...getFieldProps('password')} placeholder="请输入密码" />
-	        </FormItem>
-	        <FormItem
-	          {...formItemLayout}
-	          label="记住用户">
-	          <label>
-	            <Checkbox {...getFieldProps('agreement')} /> 同意
-	          </label>
-	        </FormItem>
-	        <FormItem wrapperCol={{ span: 4, offset: 10 }} style={{ marginTop: 24 }}>
-	          <Button type="primary" loading={LoginFetch.isFetching} htmlType="submit">登陆</Button>
-	        </FormItem>
-	      </Form>
+	    	<div className="pure-g" style={{marginTop: '100px'}}>
+	    		<div className="pure-u-1-3"></div>
+	    		<div className="pure-u-1-3">
+			      	<form className="pure-form pure-form-stacked">
+					   <fieldset>
+					        <legend>果果cms</legend>
+
+					        <label>输入用户名</label>
+					        <input onChange={e => this.state.username = e.target.value} type="text" placeholder="用户名"/>
+
+					        <label>输入密码</label>
+					        <input onChange={e => this.state.password = e.target.value} type="password" placeholder="密码"/>
+
+					        <label htmlFor="remember" className="pure-checkbox">
+					            <input id="remember" onChange={e => this.state.agreement = e.target.value === 'on' ? 1 : 0} type="checkbox"/> 记住我
+					        </label>
+
+					        <button type="button" onClick={this.handleSubmit} className="pure-button pure-button-primary">登录</button>
+					    </fieldset>
+					</form>
+				</div>
+				<div className="pure-u-1-3"></div>
+			</div>
 	      )
     }
 }
 
-Login = Form.create()(Login);
+//Login = Form.create()(Login);
 
 function mapStateToProps(state, ownProps){
     return {

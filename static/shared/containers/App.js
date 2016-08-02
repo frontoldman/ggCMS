@@ -33,7 +33,6 @@ class App extends Component {
         const { children, history } = this.props;
         return (
             <div className="ant-layout-aside">
-                <Navbar />
                 <Content children={children}/>
             </div>
         )

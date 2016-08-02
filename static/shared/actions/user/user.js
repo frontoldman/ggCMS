@@ -164,7 +164,7 @@ function login(fields){
 		headers: {
 	      "Content-Type": "application/x-www-form-urlencoded"
 	    },
-	    body:`username=${fields.username}&password=${fields.password}&agreement=${agreement}`
+	    body:`username=${fields.username}&password=${fields.password}&agreement=${fields.agreement}`
 	})
 }
 
